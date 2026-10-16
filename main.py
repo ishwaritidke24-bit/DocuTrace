@@ -1,4 +1,4 @@
-
+from llm_service import generate_answer
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 import pymupdf
@@ -146,8 +146,21 @@ def query_document(request: QueryRequest):
             "sources": [],
         }
 
+    answer = generate_answer(
+    question=request.question,
+    sources=results,
+)
+
     return {
         "question": request.question,
-        "message": "Relevant passages retrieved successfully.",
-        "sources": results,
+        "answer": answer,
+        "sources": [
+            {
+                "page": source["page"],
+                "chunk": source["chunk"],
+                "score": round(source["score"], 3),
+                "text": source["text"],
+            }
+            for source in results
+        ],
     }

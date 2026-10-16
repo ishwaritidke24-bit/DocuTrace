@@ -4,6 +4,7 @@ import zlib
 from collections.abc import Sequence
 from typing import Any, Literal
 
+from .. import frames
 from ..exceptions import (
     DuplicateParameter,
     InvalidParameterName,
@@ -12,7 +13,6 @@ from ..exceptions import (
     PayloadTooBig,
     ProtocolError,
 )
-from ..frames import CONT, CTRL_OPCODES, Frame
 from ..typing import BytesLike, ExtensionName, ExtensionParameter
 from .base import ClientExtensionFactory, Extension, ServerExtensionFactory
 
@@ -56,10 +56,7 @@ class PerMessageDeflate(Extension):
         assert remote_no_context_takeover in [False, True]
         assert local_no_context_takeover in [False, True]
         assert 8 <= remote_max_window_bits <= 15
-        # Due to https://github.com/madler/zlib/issues/171, zlib.compressobj
-        # rejects wbits=-8 with ValueError: Invalid initialization option.
-        # This makes it impossible to support local_max_window_bits = 8.
-        assert 9 <= local_max_window_bits <= 15
+        assert 8 <= local_max_window_bits <= 15
         assert "wbits" not in compress_settings
 
         self.remote_no_context_takeover = remote_no_context_takeover
@@ -94,22 +91,22 @@ class PerMessageDeflate(Extension):
 
     def decode(
         self,
-        frame: Frame,
+        frame: frames.Frame,
         *,
         max_size: int | None = None,
-    ) -> Frame:
+    ) -> frames.Frame:
         """
         Decode an incoming frame.
 
         """
         # Skip control frames.
-        if frame.opcode in CTRL_OPCODES:
+        if frame.opcode in frames.CTRL_OPCODES:
             return frame
 
         # Handle continuation data frames:
         # - skip if the message isn't encoded
         # - reset "decode continuation data" flag if it's a final frame
-        if frame.opcode is CONT:
+        if frame.opcode is frames.OP_CONT:
             if not self.decode_cont_data:
                 return frame
             if frame.rsv1:
@@ -157,7 +154,7 @@ class PerMessageDeflate(Extension):
         if frame.fin and self.remote_no_context_takeover:
             del self.decoder
 
-        return Frame(
+        return frames.Frame(
             frame.opcode,
             data,
             frame.fin,
@@ -167,19 +164,19 @@ class PerMessageDeflate(Extension):
             frame.rsv3,
         )
 
-    def encode(self, frame: Frame) -> Frame:
+    def encode(self, frame: frames.Frame) -> frames.Frame:
         """
         Encode an outgoing frame.
 
         """
         # Skip control frames.
-        if frame.opcode in CTRL_OPCODES:
+        if frame.opcode in frames.CTRL_OPCODES:
             return frame
 
         # Since we always encode messages, there's no "encode continuation
         # data" flag similar to "decode continuation data" at this time.
 
-        if frame.opcode is not CONT:
+        if frame.opcode is not frames.OP_CONT:
             # Re-initialize per-message decoder.
             if self.local_no_context_takeover:
                 self.encoder = zlib.compressobj(
@@ -204,12 +201,12 @@ class PerMessageDeflate(Extension):
         if frame.fin and self.local_no_context_takeover:
             del self.encoder
 
-        return Frame(
+        return frames.Frame(
             frame.opcode,
             data,
             frame.fin,
             # Set the rsv1 flag on the first frame of a compressed message.
-            frame.opcode is not CONT,
+            frame.opcode is not frames.OP_CONT,
             frame.rsv2,
             frame.rsv3,
         )
@@ -317,12 +314,10 @@ class ClientPerMessageDeflateFactory(ClientExtensionFactory):
         server_max_window_bits: Maximum size of the server's LZ77 sliding window
             in bits, between 8 and 15.
         client_max_window_bits: Maximum size of the client's LZ77 sliding window
-            in bits, between 9 and 15, or :obj:`True` to indicate support without
-            setting a limit. 8 isn't supported due to a `limitation of zlib`_.
+            in bits, between 8 and 15, or :obj:`True` to indicate support without
+            setting a limit.
         compress_settings: Additional keyword arguments for :func:`zlib.compressobj`,
             excluding ``wbits``.
-
-    .. _limitation of zlib: https://github.com/madler/zlib/issues/171
 
     """
 
@@ -345,9 +340,9 @@ class ClientPerMessageDeflateFactory(ClientExtensionFactory):
         if not (
             client_max_window_bits is None
             or client_max_window_bits is True
-            or 9 <= client_max_window_bits <= 15
+            or 8 <= client_max_window_bits <= 15
         ):
-            raise ValueError("client_max_window_bits must be between 9 and 15")
+            raise ValueError("client_max_window_bits must be between 8 and 15")
         if compress_settings is not None and "wbits" in compress_settings:
             raise ValueError(
                 "compress_settings must not include wbits, "
@@ -469,9 +464,6 @@ class ClientPerMessageDeflateFactory(ClientExtensionFactory):
             elif client_max_window_bits > self.client_max_window_bits:
                 raise NegotiationError("unsupported client_max_window_bits")
 
-        if client_max_window_bits == 8:
-            raise NegotiationError("unsupported client_max_window_bits = 8, use 9")
-
         return PerMessageDeflate(
             server_no_context_takeover,  # remote_no_context_takeover
             client_no_context_takeover,  # local_no_context_takeover
@@ -520,8 +512,7 @@ class ServerPerMessageDeflateFactory(ServerExtensionFactory):
         server_no_context_takeover: Prevent server from using context takeover.
         client_no_context_takeover: Prevent client from using context takeover.
         server_max_window_bits: Maximum size of the server's LZ77 sliding window
-            in bits, between 9 and 15. 8 isn't supported due to a `limitation of
-            zlib`_.
+            in bits, between 8 and 15.
         client_max_window_bits: Maximum size of the client's LZ77 sliding window
             in bits, between 8 and 15.
         compress_settings: Additional keyword arguments for :func:`zlib.compressobj`,
@@ -530,8 +521,6 @@ class ServerPerMessageDeflateFactory(ServerExtensionFactory):
             client doesn't advertise support for ``client_max_window_bits``;
             the default behavior is to enable compression without enforcing
             ``client_max_window_bits``.
-
-    .. _limitation of zlib: https://github.com/madler/zlib/issues/171
 
     """
 
@@ -550,8 +539,8 @@ class ServerPerMessageDeflateFactory(ServerExtensionFactory):
         Configure the Per-Message Deflate extension factory.
 
         """
-        if not (server_max_window_bits is None or 9 <= server_max_window_bits <= 15):
-            raise ValueError("server_max_window_bits must be between 9 and 15")
+        if not (server_max_window_bits is None or 8 <= server_max_window_bits <= 15):
+            raise ValueError("server_max_window_bits must be between 8 and 15")
         if not (client_max_window_bits is None or 8 <= client_max_window_bits <= 15):
             raise ValueError("client_max_window_bits must be between 8 and 15")
         if compress_settings is not None and "wbits" in compress_settings:
@@ -643,9 +632,6 @@ class ServerPerMessageDeflateFactory(ServerExtensionFactory):
                 server_max_window_bits = self.server_max_window_bits
             elif server_max_window_bits > self.server_max_window_bits:
                 server_max_window_bits = self.server_max_window_bits
-
-        if server_max_window_bits == 8:
-            raise NegotiationError("unsupported server_max_window_bits = 8, use 9")
 
         # client_max_window_bits
 
