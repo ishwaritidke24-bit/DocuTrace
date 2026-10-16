@@ -1,0 +1,26 @@
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local vector database
+qdrant_data/
+
+# Downloaded model/cache files
+.cache/
+models/
+*.safetensors
+
+# Environment secrets
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
