@@ -139,12 +139,33 @@ def query_document(request: QueryRequest):
             detail="Document search failed.",
         ) from exc
 
+   
     if not results:
         return {
             "question": request.question,
             "message": "No matching passages found for this document.",
             "sources": [],
         }
+
+    # Reject weak semantic matches.
+    MIN_SIMILARITY_SCORE = 0.50
+    relevant_results = [
+        source for source in results
+        if source["score"] >= MIN_SIMILARITY_SCORE
+    ]
+
+    if not relevant_results:
+        return {
+            "question": request.question,
+            "message": (
+                "I couldn't find sufficiently relevant information "
+                "in this document to answer confidently."
+            ),
+            "sources": [],
+        }
+
+    results = relevant_results
+
 
     try:
         answer = generate_answer(
