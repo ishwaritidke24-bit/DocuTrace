@@ -146,10 +146,17 @@ def query_document(request: QueryRequest):
             "sources": [],
         }
 
-    answer = generate_answer(
-    question=request.question,
-    sources=results,
-)
+    try:
+        answer = generate_answer(
+            question=request.question,
+            sources=results,
+        )
+    except Exception as exc:
+        print("Gemini error:", repr(exc))
+        raise HTTPException(
+            status_code=502,
+            detail="Answer generation failed. Check the VS Code terminal for details.",
+            ) from exc
 
     return {
         "question": request.question,
