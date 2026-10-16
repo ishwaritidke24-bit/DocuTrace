@@ -43,6 +43,28 @@ def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200):
 
     return chunks
 
+
+def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200):
+    if chunk_size <= 0 or overlap < 0 or overlap >= chunk_size:
+        raise ValueError("Overlap must be non-negative and smaller than chunk size.")
+
+    chunks = []
+    start = 0
+
+    while start < len(text):
+        end = min(start + chunk_size, len(text))
+        chunk = text[start:end].strip()
+
+        if chunk:
+            chunks.append(chunk)
+
+        if end == len(text):
+            break
+
+        start = end - overlap
+
+    return chunks
+
 @app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
     if not file.filename or not file.filename.lower().endswith(".pdf"):
@@ -74,7 +96,6 @@ async def upload_pdf(file: UploadFile = File(...)):
                             "text": chunk
                             })
 
-
     except Exception as exc:
         raise HTTPException(
             status_code=400,
@@ -86,11 +107,11 @@ async def upload_pdf(file: UploadFile = File(...)):
             status_code=422,
             detail="No extractable text found. Scanned PDFs need OCR."
         )
-
     
     return {
         "filename": file.filename,
         "chunks_created": len(pages),
         "chunks": pages
     }
+
 
