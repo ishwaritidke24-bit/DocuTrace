@@ -284,15 +284,16 @@ export default function App() {
       <div className="scroll-progress" aria-hidden="true"><span /></div>
       <div className="ambient-grid" aria-hidden="true" />
       <div className="ambient-light" aria-hidden="true" />
+      <a className="skip-link" href="#approach">Skip to content</a>
       <header className="site-header">
         <a className="wordmark" href="#top" aria-label="DocuTrace home"><span className="wordmark-symbol"><Orbit size={21} strokeWidth={1.4} /></span><span>Docu<span>Trace</span><sup>®</sup></span></a>
-        <nav className={`main-nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Main navigation">
+        <nav className={`main-nav ${menuOpen ? 'nav-open' : ''}`} id="primary-navigation" aria-label="Main navigation">
           <a href="#top" onClick={() => setMenuOpen(false)} className="nav-active">Home</a>
           <a href="#approach" onClick={() => setMenuOpen(false)}>The idea</a>
           <a href="#pipeline" onClick={() => setMenuOpen(false)}>How it works</a>
           <a href="#workspace" onClick={() => setMenuOpen(false)}>Workspace</a>
         </nav>
-        <div className="header-right"><span className="header-status"><i /> EVIDENCE-FIRST / 001</span><button className="header-cta" onClick={scrollToWorkspace}>Try DocuTrace <ArrowUpRight size={14} /></button><button className="mobile-menu" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div>
+        <div className="header-right"><span className="header-status"><i /> EVIDENCE-FIRST / 001</span><button className="header-cta" onClick={scrollToWorkspace}>Try DocuTrace <ArrowUpRight size={14} /></button><button className="mobile-menu" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div>
       </header>
 
       <section className="hero section-frame" aria-labelledby="hero-title">
