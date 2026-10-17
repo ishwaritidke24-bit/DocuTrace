@@ -50,48 +50,93 @@ function sourceScore(source) {
   return raw > 1 ? `${Math.round(raw)}%` : `${Math.round(raw * 100)}%`;
 }
 
+const evidenceLayerOffsets = [
+  { selector: '.evidence-parallax-main', x: -12, y: -8 },
+  { selector: '.evidence-parallax-left', x: -22, y: -13 },
+  { selector: '.evidence-parallax-right', x: -18, y: -11 },
+];
+
+function moveEvidenceScene(event) {
+  if (event.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const scene = event.currentTarget;
+  const bounds = scene.getBoundingClientRect();
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+  for (const { selector, x: xOffset, y: yOffset } of evidenceLayerOffsets) {
+    const layer = scene.querySelector(selector);
+    if (layer) layer.style.transform = `translate3d(${x * xOffset}px, ${y * yOffset}px, 0)`;
+  }
+  scene.style.setProperty('--inspect-x', `${x * 15}px`);
+  scene.style.setProperty('--inspect-y', `${y * 11}px`);
+}
+
+function resetEvidenceScene(event) {
+  const scene = event.currentTarget;
+  for (const { selector } of evidenceLayerOffsets) {
+    const layer = scene.querySelector(selector);
+    if (layer) layer.style.transform = 'translate3d(0px, 0px, 0)';
+  }
+  scene.style.setProperty('--inspect-x', '0px');
+  scene.style.setProperty('--inspect-y', '0px');
+}
+
 function EvidenceScene() {
   return (
-    <div className="evidence-scene" aria-label="Stylised illustration of a document passage being traced to an answer">
+    <div
+      className="evidence-scene"
+      aria-label="Stylised illustration of a document passage being traced to an answer"
+      onPointerMove={moveEvidenceScene}
+      onPointerLeave={resetEvidenceScene}
+    >
       <div className="scene-topline"><span>FIG. 001 / EVIDENCE STUDY</span><span>DOCUMENT → PASSAGE → ANSWER</span></div>
       <div className="scene-coordinate coord-left">N 19° 59′ 12.4″</div>
       <div className="scene-coordinate coord-right">SOURCE / 001—A</div>
       <div className="scene-glow" />
-      <div className="paper-sheet paper-back paper-back-left" aria-hidden="true">
-        <div className="paper-mini-top"><span>CONFIDENTIAL REPORT</span><span>04</span></div>
-        <div className="paper-photo" />
-        <div className="paper-line w-92" /><div className="paper-line w-84" /><div className="paper-line w-88" />
-        <div className="paper-line w-70" /><div className="paper-line w-90" />
-        <div className="paper-subhead">SECTION 02</div>
-        <div className="paper-line w-85" /><div className="paper-line w-78" /><div className="paper-line w-68" />
-        <div className="paper-number">04 / 18</div>
-      </div>
-      <div className="paper-sheet paper-back paper-back-right" aria-hidden="true">
-        <div className="paper-mini-top"><span>AGREEMENT NOTES</span><span>12</span></div>
-        <div className="paper-subhead">TERMS & CONDITIONS</div>
-        <div className="paper-line w-92" /><div className="paper-line w-82" /><div className="paper-line w-88" />
-        <div className="paper-line w-73" /><div className="paper-line w-95" />
-        <div className="paper-stamp-muted">REVIEW COPY</div>
-        <div className="paper-line w-88" /><div className="paper-line w-76" /><div className="paper-line w-91" />
-        <div className="paper-number">12 / 28</div>
-      </div>
-      <div className="paper-sheet paper-main">
-        <div className="paper-header"><span>INTERNATIONAL TRADE AGREEMENT</span><span>PAGE 12</span></div>
-        <div className="paper-rule" />
-        <div className="paper-section-title">SECTION 4.2 <span>DURATION & TERMINATION</span></div>
-        <div className="paper-copy">
-          <p>The parties agree to the terms set forth in this document and the obligations described herein.</p>
-          <p><mark>The agreement shall enter into force on January 1, 2024, and remain in effect for a period of five years.</mark></p>
-          <p>All amendments must be recorded in writing and approved by the authorised parties.</p>
+      <div className="evidence-parallax evidence-parallax-left" aria-hidden="true">
+        <div className="paper-sheet paper-back paper-back-left">
+          <div className="paper-mini-top"><span>CONFIDENTIAL REPORT</span><span>04</span></div>
+          <div className="paper-photo" />
+          <div className="paper-line w-92" /><div className="paper-line w-84" /><div className="paper-line w-88" />
+          <div className="paper-line w-70" /><div className="paper-line w-90" />
+          <div className="paper-subhead">SECTION 02</div>
+          <div className="paper-line w-85" /><div className="paper-line w-78" /><div className="paper-line w-68" />
+          <div className="paper-number">04 / 18</div>
         </div>
-        <div className="paper-verified"><Check size={10} /> PASSAGE IDENTIFIED</div>
-        <div className="paper-footer"><span>ARCHIVE / CONTRACTS</span><span>12—28</span></div>
+      </div>
+      <div className="evidence-parallax evidence-parallax-right" aria-hidden="true">
+        <div className="paper-sheet paper-back paper-back-right">
+          <div className="paper-mini-top"><span>AGREEMENT NOTES</span><span>12</span></div>
+          <div className="paper-subhead">TERMS & CONDITIONS</div>
+          <div className="paper-line w-92" /><div className="paper-line w-82" /><div className="paper-line w-88" />
+          <div className="paper-line w-73" /><div className="paper-line w-95" />
+          <div className="paper-stamp-muted">REVIEW COPY</div>
+          <div className="paper-line w-88" /><div className="paper-line w-76" /><div className="paper-line w-91" />
+          <div className="paper-number">12 / 28</div>
+        </div>
+      </div>
+      <div className="evidence-parallax evidence-parallax-main" aria-hidden="true">
+        <div className="paper-sheet paper-main">
+          <div className="paper-header"><span>INTERNATIONAL TRADE AGREEMENT</span><span>PAGE 12</span></div>
+          <div className="paper-rule" />
+          <div className="paper-section-title">SECTION 4.2 <span>DURATION & TERMINATION</span></div>
+          <div className="paper-copy">
+            <p>The parties agree to the terms set forth in this document and the obligations described herein.</p>
+            <p><mark>The agreement shall enter into force on January 1, 2024, and remain in effect for a period of five years.</mark></p>
+            <p>All amendments must be recorded in writing and approved by the authorised parties.</p>
+          </div>
+          <div className="paper-verified"><Check size={10} /> PASSAGE IDENTIFIED</div>
+          <div className="paper-footer"><span>ARCHIVE / CONTRACTS</span><span>12—28</span></div>
+        </div>
       </div>
       <svg className="evidence-thread" viewBox="0 0 680 470" preserveAspectRatio="none" aria-hidden="true">
         <path className="thread-guide" d="M311 229 C390 214 396 279 461 268 S520 288 581 284" />
         <circle cx="311" cy="229" r="4.5" className="thread-origin" />
         <circle cx="581" cy="284" r="5" className="thread-end" />
+        <circle cx="311" cy="229" r="4" className="thread-pulse" />
       </svg>
+      <div className="scene-scanner" aria-hidden="true" />
       <div className="inspect-ring"><span className="inspect-cross">+</span><span className="inspect-label">INSPECT PASSAGE</span></div>
       <div className="evidence-stamp"><span className="stamp-top">SOURCE FOUND</span><strong>EVIDENCE</strong><span className="stamp-bottom">TRACE / CONFIRM / TRUST</span></div>
       <div className="trace-card"><div><span>PAGE</span><strong>12</strong></div><div><span>CHUNK</span><strong>03</strong></div><div><span>SCORE</span><strong className="score-lime">0.82</strong></div></div>
@@ -187,6 +232,23 @@ export default function App() {
         gsap.to('.paper-back-right', { y: 12, rotate: 8, duration: 6.1, ease: 'sine.inOut', yoyo: true, repeat: -1 });
         gsap.to('.paper-main', { y: -6, duration: 4.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
         gsap.to('.evidence-thread .thread-guide', { strokeDashoffset: -90, duration: 5, ease: 'none', repeat: -1 });
+        const tracePath = rootRef.current?.querySelector('.thread-guide');
+        const tracePulse = rootRef.current?.querySelector('.thread-pulse');
+        if (tracePath instanceof SVGPathElement && tracePulse instanceof SVGCircleElement) {
+          const traceLength = tracePath.getTotalLength();
+          const traceProgress = { distance: 0 };
+          gsap.to(traceProgress, {
+            distance: traceLength,
+            duration: 3.8,
+            ease: 'none',
+            repeat: -1,
+            onUpdate: () => {
+              const point = tracePath.getPointAtLength(traceProgress.distance);
+              tracePulse.setAttribute('cx', String(point.x));
+              tracePulse.setAttribute('cy', String(point.y));
+            },
+          });
+        }
       }
     }, rootRef);
 
