@@ -133,6 +133,20 @@ def query_document(request: QueryRequest):
             document_id=request.document_id,
             limit=3,
         )
+        print(f"\n[DocuTrace] Question: {request.question}")
+        print(f"[DocuTrace] Retrieved candidates: {len(results)}")
+        for result in results:
+            text = (
+                result.get("text")
+                or result.get("content")
+                or result.get("page_content")
+                or result.get("chunk_text")
+                or ""
+                )
+            print({
+                "score": result.get("score"),
+                "preview": text[:180]
+                })    
     except Exception as exc:
         raise HTTPException(
             status_code=500,
@@ -149,9 +163,11 @@ def query_document(request: QueryRequest):
 
     # Reject weak semantic matches.
     MIN_SIMILARITY_SCORE = 0.50
+    RELEVANCE_THRESHOLD = 0.08
+
     relevant_results = [
-        source for source in results
-        if source["score"] >= MIN_SIMILARITY_SCORE
+        result for result in results
+        if result.get("score", 0) >= RELEVANCE_THRESHOLD
     ]
 
     if not relevant_results:
