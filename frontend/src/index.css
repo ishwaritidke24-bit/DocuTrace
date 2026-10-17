@@ -273,3 +273,217 @@ button { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* ========================================================================
+   READABILITY PASS — larger type, stronger contrast, calmer letter spacing
+   Keeps the original cinematic art direction while making UI text easier to read.
+   ======================================================================== */
+html { font-size: 16px; }
+body { font-size: 16px; line-height: 1.65; }
+
+/* Navigation, controls and section labels */
+.main-nav a,
+.header-cta,
+.button-primary,
+.text-link,
+.hero-eyebrow,
+.hero-proof,
+.hero-scroll,
+.section-kicker,
+.signal-name,
+.pipeline-top,
+.pipeline-label,
+.pipeline-caption,
+.workbench-brand,
+.workbench-status,
+.rail-label,
+.upload-limit,
+.file-mini-type,
+.file-mini-size,
+.indexed-tag,
+.replace-file,
+.source-status-list div,
+.rail-bottom-note,
+.panel-kicker,
+.console-tag,
+.empty-console-index,
+.empty-checklist span,
+.starter-label,
+.message-label,
+.sources-heading,
+.source-meta,
+.source-file,
+.no-sources-note,
+.thinking-state,
+.question-label,
+.question-foot,
+.workbench-footer,
+.workspace-footnote,
+.site-footer {
+  font-size: 10.5px;
+  letter-spacing: .055em;
+}
+
+.header-status { font-size: 10px; }
+.wordmark sup { font-size: 9px; }
+.hero-eyebrow { line-height: 1.75; letter-spacing: .11em; }
+.hero-description { max-width: 430px; font-size: 16px; line-height: 1.75; color: #d1d7cb; }
+.button-primary { font-size: 11px; padding: 14px 17px 14px 20px; }
+.text-link { font-size: 10.5px; }
+.hero-proof, .hero-scroll { font-size: 10px; letter-spacing: .09em; }
+
+/* Body copy and process cards */
+.signal-detail { font-size: 12px; line-height: 1.5; color: #aeb8a3; }
+.section-kicker { font-size: 10px; color: #a5b098; letter-spacing: .09em; }
+.manifesto-copy p { font-size: 16px; line-height: 1.75; }
+.manifesto-copy .muted-copy { font-size: 14px; line-height: 1.75; color: #abb5a2; }
+.arrow-link { font-size: 10.5px; }
+.manifesto-ruler { font-size: 9px; color: #89957e; letter-spacing: .08em; }
+.pipeline-heading p,
+.workspace-heading p { font-size: 14px; line-height: 1.8; color: #b0b9a6; }
+.pipeline-top { font-size: 10px; }
+.pipeline-label { font-size: 10px; color: #9eaa91; letter-spacing: .08em; }
+.pipeline-card h3 { font-size: 31px; }
+.pipeline-card p { font-size: 13px; line-height: 1.75; color: #b6c0ae; }
+.pipeline-caption { font-size: 9px; color: #929e85; letter-spacing: .04em; line-height: 1.6; }
+
+/* Document illustration text remains part of the scene, but no longer microscopic */
+.scene-topline { font-size: 8.5px; color: #a0ab91; letter-spacing: .08em; }
+.scene-coordinate { font-size: 8.5px; color: #9aa68c; }
+.paper-mini-top, .paper-header, .paper-footer { font-size: 8px; }
+.paper-subhead, .paper-section-title { font-size: 8.5px; }
+.paper-copy { font-size: 10px; line-height: 1.8; }
+.paper-verified { font-size: 8px; }
+.paper-number { font-size: 8px; }
+.paper-stamp-muted { font-size: 8px; }
+.inspect-label { font-size: 9px; }
+.stamp-top, .stamp-bottom { font-size: 7.5px; }
+.trace-card span { font-size: 9px; }
+.trace-card strong { font-size: 10px; }
+.scene-bottomline { font-size: 8.5px; color: #99a58c; letter-spacing: .045em; }
+
+/* Make the upload and Q&A workspace comfortably readable */
+.workbench-brand { font-size: 10px; }
+.workbench-status { font-size: 9.5px; }
+.upload-title { font-size: 23px; }
+.upload-copy { font-size: 12px; line-height: 1.7; color: #aab69d; }
+.upload-limit { font-size: 9.5px; }
+.file-mini-preview > span { font-size: 7.5px; }
+.file-mini-name { font-size: 13px; line-height: 1.4; }
+.file-mini-size { font-size: 10px; }
+.file-mini-type, .indexed-tag { font-size: 9px; }
+.replace-file { font-size: 10px; }
+.source-status-list div { font-size: 9.5px; }
+.source-status-list strong { font-size: 10px; }
+.rail-bottom-note { font-size: 10px; line-height: 1.65; color: #9ca88f; }
+.panel-kicker { font-size: 9.5px; }
+.query-panel-head h3 { font-size: 36px; }
+.console-tag { font-size: 9px; }
+.empty-console-index { font-size: 9.5px; }
+.empty-console p { font-size: 13px; line-height: 1.75; color: #aab49d; }
+.empty-checklist span { font-size: 9px; }
+.starter-label { font-size: 9.5px; }
+.starter-prompt { font-size: 13px; line-height: 1.5; }
+.starter-prompt > span { font-size: 10px; }
+.message-label { font-size: 9.5px; }
+.message-content { font-size: 14px; line-height: 1.8; }
+.source-index, .source-score { font-size: 10px; }
+.source-title { font-size: 12.5px; line-height: 1.45; }
+.source-meta { font-size: 9.5px; line-height: 1.5; color: #a1ad95; }
+.source-passage { font-size: 13px; line-height: 1.8; color: #c1caba; }
+.source-file { font-size: 9.5px; }
+.no-sources-note { font-size: 10px; color: #a6b199; }
+.thinking-state { font-size: 10px; }
+.question-label { font-size: 9.5px; }
+.question-field input { font-size: 14px; line-height: 1.5; }
+.question-field input::placeholder { color: #8b9880; }
+.question-foot { font-size: 9px; color: #9aa68c; line-height: 1.5; }
+.workbench-footer { font-size: 9px; color: #929f84; line-height: 1.5; }
+.workspace-footnote { font-size: 9px; color: #929f84; line-height: 1.6; }
+.notice { font-size: 10.5px; }
+.closing-copy p { font-size: 14px; line-height: 1.8; color: #b0baa6; }
+.closing-document-head { font-size: 7.5px; }
+.closing-stamp span { font-size: 7px; }
+.site-footer { font-size: 9px; line-height: 1.6; color: #929e85; }
+.site-footer > a:not(.footer-brand) { font-size: 9.5px; }
+.footer-brand { font-size: 17px; }
+
+/* Slightly tighter on phones, but never tiny */
+@media (max-width: 620px) {
+  body { font-size: 15px; }
+  .main-nav a,
+  .header-cta,
+  .button-primary,
+  .text-link,
+  .hero-eyebrow,
+  .hero-proof,
+  .hero-scroll,
+  .section-kicker,
+  .signal-name,
+  .pipeline-top,
+  .pipeline-label,
+  .pipeline-caption,
+  .workbench-brand,
+  .workbench-status,
+  .rail-label,
+  .upload-limit,
+  .file-mini-type,
+  .file-mini-size,
+  .indexed-tag,
+  .replace-file,
+  .source-status-list div,
+  .rail-bottom-note,
+  .panel-kicker,
+  .console-tag,
+  .empty-console-index,
+  .empty-checklist span,
+  .starter-label,
+  .message-label,
+  .sources-heading,
+  .source-meta,
+  .source-file,
+  .no-sources-note,
+  .thinking-state,
+  .question-label,
+  .question-foot,
+  .workbench-footer,
+  .workspace-footnote,
+  .site-footer {
+    font-size: 9.5px;
+    letter-spacing: .035em;
+  }
+  .hero-description { font-size: 15px; line-height: 1.75; }
+  .hero-eyebrow { font-size: 9.5px; }
+  .hero-proof { font-size: 9px; }
+  .scene-topline { font-size: 7px; }
+  .scene-coordinate { font-size: 7px; }
+  .paper-mini-top, .paper-header, .paper-footer { font-size: 6.5px; }
+  .paper-subhead, .paper-section-title { font-size: 7px; }
+  .paper-copy { font-size: 8px; line-height: 1.65; }
+  .paper-verified, .paper-stamp-muted { font-size: 6.5px; }
+  .paper-number { font-size: 6.5px; }
+  .inspect-label { font-size: 7px; }
+  .stamp-top, .stamp-bottom { font-size: 5.5px; }
+  .trace-card span { font-size: 7.5px; }
+  .trace-card strong { font-size: 8px; }
+  .scene-bottomline { font-size: 6.5px; }
+  .signal-detail { font-size: 10px; }
+  .manifesto-copy p { font-size: 15px; }
+  .manifesto-copy .muted-copy { font-size: 13px; }
+  .pipeline-heading p, .workspace-heading p { font-size: 13px; }
+  .pipeline-card p { font-size: 12px; }
+  .pipeline-caption { font-size: 8px; }
+  .upload-copy { font-size: 12px; }
+  .file-mini-name { font-size: 13px; }
+  .query-panel-head h3 { font-size: 31px; }
+  .empty-console p { font-size: 12px; }
+  .empty-checklist span { font-size: 8px; }
+  .starter-prompt { font-size: 12.5px; }
+  .message-content { font-size: 14px; }
+  .source-title { font-size: 12px; }
+  .source-passage { font-size: 12.5px; }
+  .question-field input { font-size: 14px; }
+  .closing-copy p { font-size: 13px; }
+  .site-footer > span:nth-child(2) { font-size: 8.5px; }
+  .site-footer > a:not(.footer-brand) { font-size: 8.5px; }
+}
