@@ -206,12 +206,24 @@ button { color: inherit; }
 .section-kicker { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 13px; border-bottom: 1px solid var(--line); color: #818c76; font: 8px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
 .section-kicker span:first-child { display: flex; align-items: center; gap: 8px; }.section-kicker span:first-child::before { content: ''; display: inline-block; width: 5px; height: 5px; background: var(--lime); transform: rotate(45deg); }
 .manifesto { padding-top: clamp(65px, 9vw, 126px); padding-bottom: clamp(54px, 7vw, 92px); }
-.manifesto-main { display: grid; grid-template-columns: 1.12fr .88fr; align-items: end; gap: clamp(40px, 9vw, 140px); padding-top: 30px; }
+.manifesto-main { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(36px, 7vw, 90px); padding-top: 30px; }
 .manifesto-main h2, .pipeline-heading h2, .workspace-heading h2, .closing-copy h2 { margin: 0; font: 400 clamp(41px, 5.1vw, 72px)/.98 var(--serif); letter-spacing: -.045em; }
 .manifesto-main h2 em, .pipeline-heading h2 em, .workspace-heading h2 em, .closing-copy h2 em { color: var(--lime); font-weight: 400; }
-.manifesto-copy { max-width: 405px; padding-bottom: 4px; }.manifesto-copy p { font-size: 15px; line-height: 1.65; color: #d0d6c9; margin: 0 0 12px; }.manifesto-copy .muted-copy { font-size: 12px; color: #8f9a87; line-height: 1.85; }
-.arrow-link { display: inline-flex; align-items: center; gap: 16px; padding-bottom: 7px; margin-top: 16px; border-bottom: 1px solid rgba(198,255,61,.55); color: var(--lime); font: 9px var(--mono); letter-spacing: .05em; text-transform: uppercase; transition: gap .25s ease; }.arrow-link:hover { gap: 23px; }
-.manifesto-ruler { display: flex; align-items: center; gap: 15px; margin-top: 45px; color: #64705b; font: 7px var(--mono); letter-spacing: .12em; }.ruler-line { height: 1px; background: var(--line); flex: 1; }.manifesto-ruler span:last-child { margin-left: auto; }
+.manifesto-copy { max-width: 500px; padding-bottom: 4px; }
+.manifesto-copy p { font-size: 16px; line-height: 1.7; color: #d6ded2; margin: 16px 0 12px; }
+.manifesto-copy .muted-copy { font-size: 14.5px; color: #9baa94; line-height: 1.75; }
+.manifesto-contrast-grid { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+.contrast-card { padding: 20px 22px; border: 1px solid var(--line); background: rgba(255,255,255,.02); border-radius: 4px; transition: transform .25s ease, border-color .25s ease; }
+.contrast-card:hover { transform: translateY(-2px); }
+.contrast-card-bad { border-left: 3px solid var(--red); background: linear-gradient(90deg, rgba(255,77,46,.08), rgba(255,77,46,.01) 75%); }
+.contrast-card-good { border-left: 3px solid var(--lime); background: linear-gradient(90deg, rgba(198,255,61,.08), rgba(198,255,61,.01) 75%); }
+.contrast-badge { font: 10px/1 var(--mono); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+.contrast-card-bad .contrast-badge { color: var(--red); }
+.contrast-card-good .contrast-badge { color: var(--lime); }
+.contrast-card h4 { margin: 0 0 6px; font: 20px/1.2 var(--serif); color: #fff; letter-spacing: -.01em; }
+.contrast-card p { margin: 0; font-size: 13.5px; line-height: 1.6; color: #b6c1b2; }
+.arrow-link { display: inline-flex; align-items: center; gap: 16px; padding-bottom: 7px; margin-top: 22px; border-bottom: 1px solid rgba(198,255,61,.55); color: var(--lime); font: 10.5px var(--mono); letter-spacing: .06em; text-transform: uppercase; transition: gap .25s ease; }
+.arrow-link:hover { gap: 23px; }
 
 /* Pipeline */
 .pipeline-section { padding-top: clamp(45px, 6vw, 78px); padding-bottom: clamp(62px, 8vw, 110px); border-top: 1px solid var(--line); }
@@ -286,21 +298,29 @@ button { color: inherit; }
    Keeps the original cinematic art direction while making UI text easier to read.
    ======================================================================== */
 html { font-size: 16px; }
-body { font-size: 16px; line-height: 1.65; }
+body { font-size: 16px; line-height: 1.65; color: var(--paper); }
 
 /* Navigation, controls and section labels */
-.main-nav a,
+.main-nav a {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
 .header-cta,
-.button-primary,
+.button-primary {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+}
+
 .text-link,
-.hero-eyebrow,
 .hero-proof,
 .hero-scroll,
 .section-kicker,
 .signal-name,
 .pipeline-top,
 .pipeline-label,
-.pipeline-caption,
 .workbench-brand,
 .workbench-status,
 .rail-label,
@@ -314,7 +334,6 @@ body { font-size: 16px; line-height: 1.65; }
 .panel-kicker,
 .console-tag,
 .empty-console-index,
-.empty-checklist span,
 .starter-label,
 .message-label,
 .sources-heading,
@@ -327,95 +346,377 @@ body { font-size: 16px; line-height: 1.65; }
 .workbench-footer,
 .workspace-footnote,
 .site-footer {
-  font-size: 10.5px;
-  letter-spacing: .055em;
+  font-size: 11.5px;
+  letter-spacing: .06em;
 }
 
-.header-status { font-size: 10px; }
-.wordmark sup { font-size: 9px; }
-.hero-eyebrow { line-height: 1.75; letter-spacing: .11em; }
-.hero-description { max-width: 430px; font-size: 16px; line-height: 1.75; color: #d1d7cb; }
-.button-primary { font-size: 11px; padding: 14px 17px 14px 20px; }
-.text-link { font-size: 10.5px; }
-.hero-proof, .hero-scroll { font-size: 10px; letter-spacing: .09em; }
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: .12em;
+  color: #e2e8dc;
+}
+
+.hero-description {
+  max-width: 480px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #d6ded2;
+}
+
+.button-primary {
+  padding: 14px 22px;
+}
+
+.text-link {
+  font-size: 12px;
+}
+
+.hero-proof {
+  font-size: 12px;
+  color: #b8c4b2;
+  letter-spacing: .06em;
+}
+
+.hero-scroll {
+  font-size: 11.5px;
+  color: #9baa92;
+}
 
 /* Body copy and process cards */
-.signal-detail { font-size: 12px; line-height: 1.5; color: #aeb8a3; }
-.section-kicker { font-size: 10px; color: #a5b098; letter-spacing: .09em; }
-.manifesto-copy p { font-size: 16px; line-height: 1.75; }
-.manifesto-copy .muted-copy { font-size: 14px; line-height: 1.75; color: #abb5a2; }
-.arrow-link { font-size: 10.5px; }
-.manifesto-ruler { font-size: 9px; color: #89957e; letter-spacing: .08em; }
+.signal-detail {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b2bea8;
+}
+
+.section-kicker {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #b5c2ab;
+  letter-spacing: .09em;
+}
+
 .pipeline-heading p,
-.workspace-heading p { font-size: 14px; line-height: 1.8; color: #b0b9a6; }
-.pipeline-top { font-size: 10px; }
-.pipeline-label { font-size: 10px; color: #9eaa91; letter-spacing: .08em; }
-.pipeline-card h3 { font-size: 31px; }
-.pipeline-card p { font-size: 13px; line-height: 1.75; color: #b6c0ae; }
-.pipeline-caption { font-size: 9px; color: #929e85; letter-spacing: .04em; line-height: 1.6; }
+.workspace-heading p {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: #c2cdbc;
+}
 
-/* Document illustration text remains part of the scene, but no longer microscopic */
-.scene-topline { font-size: 8.5px; color: #a0ab91; letter-spacing: .08em; }
-.scene-coordinate { font-size: 8.5px; color: #9aa68c; }
-.paper-mini-top, .paper-header, .paper-footer { font-size: 8px; }
-.paper-subhead, .paper-section-title { font-size: 8.5px; }
-.paper-copy { font-size: 10px; line-height: 1.8; }
-.paper-verified { font-size: 8px; }
-.paper-number { font-size: 8px; }
-.paper-stamp-muted { font-size: 8px; }
-.inspect-label { font-size: 9px; }
-.stamp-top, .stamp-bottom { font-size: 7.5px; }
-.trace-card span { font-size: 9px; }
-.trace-card strong { font-size: 10px; }
-.scene-bottomline { font-size: 8.5px; color: #99a58c; letter-spacing: .045em; }
+.pipeline-top {
+  font-size: 11.5px;
+  font-weight: 500;
+}
 
-/* Make the upload and Q&A workspace comfortably readable */
-.workbench-brand { font-size: 10px; }
-.workbench-status { font-size: 9.5px; }
-.upload-title { font-size: 23px; }
-.upload-copy { font-size: 12px; line-height: 1.7; color: #aab69d; }
-.upload-limit { font-size: 9.5px; }
-.file-mini-preview > span { font-size: 7.5px; }
-.file-mini-name { font-size: 13px; line-height: 1.4; }
-.file-mini-size { font-size: 10px; }
-.file-mini-type, .indexed-tag { font-size: 9px; }
-.replace-file { font-size: 10px; }
-.source-status-list div { font-size: 9.5px; }
-.source-status-list strong { font-size: 10px; }
-.rail-bottom-note { font-size: 10px; line-height: 1.65; color: #9ca88f; }
-.panel-kicker { font-size: 9.5px; }
-.query-panel-head h3 { font-size: 36px; }
-.console-tag { font-size: 9px; }
-.empty-console-index { font-size: 9.5px; }
-.empty-console p { font-size: 13px; line-height: 1.75; color: #aab49d; }
-.empty-checklist span { font-size: 9px; }
-.starter-label { font-size: 9.5px; }
-.starter-prompt { font-size: 13px; line-height: 1.5; }
-.starter-prompt > span { font-size: 10px; }
-.message-label { font-size: 9.5px; }
-.message-content { font-size: 14px; line-height: 1.8; }
-.source-index, .source-score { font-size: 10px; }
-.source-title { font-size: 12.5px; line-height: 1.45; }
-.source-meta { font-size: 9.5px; line-height: 1.5; color: #a1ad95; }
-.source-passage { font-size: 13px; line-height: 1.8; color: #c1caba; }
-.source-file { font-size: 9.5px; }
-.no-sources-note { font-size: 10px; color: #a6b199; }
-.thinking-state { font-size: 10px; }
-.question-label { font-size: 9.5px; }
-.question-field input { font-size: 14px; line-height: 1.5; }
-.question-field input::placeholder { color: #8b9880; }
-.question-foot { font-size: 9px; color: #9aa68c; line-height: 1.5; }
-.workbench-footer { font-size: 9px; color: #929f84; line-height: 1.5; }
-.workspace-footnote { font-size: 9px; color: #929f84; line-height: 1.6; }
-.notice { font-size: 10.5px; }
-.closing-copy p { font-size: 14px; line-height: 1.8; color: #b0baa6; }
-.closing-document-head { font-size: 7.5px; }
-.closing-stamp span { font-size: 7px; }
-.site-footer { font-size: 9px; line-height: 1.6; color: #929e85; }
-.site-footer > a:not(.footer-brand) { font-size: 9.5px; }
-.footer-brand { font-size: 17px; }
+.pipeline-label {
+  font-size: 11px;
+  color: #aab8a0;
+  letter-spacing: .08em;
+}
 
-/* Slightly tighter on phones, but never tiny */
+.pipeline-card h3 {
+  font-size: 26px;
+  margin: 10px 0 10px;
+}
+
+.pipeline-card p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #bcc6b6;
+}
+
+/* Document illustration text in evidence scene */
+.scene-topline {
+  font-size: 11px;
+  font-weight: 500;
+  color: #b2c0a4;
+  letter-spacing: .08em;
+}
+
+.paper-mini-top,
+.paper-header,
+.paper-footer {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+
+.paper-subhead,
+.paper-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.paper-copy {
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: #1a1913;
+}
+
+.paper-copy mark {
+  background: rgba(198, 255, 61, .92);
+  color: #0b1207;
+  font-weight: 600;
+  padding: 1px 4px;
+}
+
+.paper-verified {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+.paper-number {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.inspect-label {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.stamp-top,
+.stamp-bottom {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+
+.trace-card span {
+  font-size: 11px;
+}
+
+.trace-card strong {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.scene-bottomline {
+  font-size: 11px;
+  color: #b4c2a8;
+  letter-spacing: .06em;
+}
+
+/* Upload and workspace readability */
+.workbench-brand {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.workbench-status {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.upload-title {
+  font-size: 24px;
+}
+
+.upload-copy {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #b4c2ab;
+}
+
+.upload-limit {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.file-mini-name {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #fff;
+  font-weight: 500;
+}
+
+.file-mini-size {
+  font-size: 11.5px;
+  color: #9baa92;
+}
+
+.file-mini-type,
+.indexed-tag {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.replace-file {
+  font-size: 11.5px;
+}
+
+.source-status-list div {
+  font-size: 11.5px;
+}
+
+.source-status-list strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rail-bottom-note {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #aebbaa;
+}
+
+.panel-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+
+.query-panel-head h3 {
+  font-size: 34px;
+}
+
+.console-tag {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.empty-console-index {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+
+.empty-console h4 {
+  font-size: 26px;
+}
+
+.empty-console p {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: #b4c0ad;
+}
+
+.starter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b8c6af;
+  letter-spacing: .08em;
+}
+
+.starter-prompt {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #dce3d5;
+}
+
+.starter-prompt:hover {
+  color: var(--lime);
+}
+
+.message-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.message-content {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #e4ece0;
+}
+
+.message-user .message-content {
+  color: #c4cebf;
+}
+
+.sources-heading {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  color: #b5c2ab;
+}
+
+.source-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e4ece0;
+}
+
+.source-meta {
+  font-size: 11.5px;
+  color: #9baa92;
+}
+
+.source-score {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.source-passage {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #cbd5c6;
+}
+
+.source-file {
+  font-size: 11px;
+}
+
+.question-label {
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.question-field input {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.question-field input::placeholder {
+  color: #8c9983;
+}
+
+.question-foot {
+  font-size: 11.5px;
+  color: #a4b29c;
+}
+
+.workbench-footer {
+  font-size: 11px;
+  font-weight: 500;
+  color: #9caa92;
+}
+
+.workspace-footnote {
+  font-size: 11.5px;
+  color: #9caa92;
+}
+
+.notice {
+  font-size: 12px;
+}
+
+.closing-copy p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #c2cdbc;
+}
+
+.site-footer {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #98a78e;
+}
+
+.site-footer > a:not(.footer-brand) {
+  font-size: 12px;
+}
+
+.footer-brand {
+  font-size: 18px;
+}
+
+/* Mobile responsive adjustments */
 @media (max-width: 620px) {
   body { font-size: 15px; }
   .main-nav a,
@@ -429,7 +730,6 @@ body { font-size: 16px; line-height: 1.65; }
   .signal-name,
   .pipeline-top,
   .pipeline-label,
-  .pipeline-caption,
   .workbench-brand,
   .workbench-status,
   .rail-label,
@@ -443,7 +743,6 @@ body { font-size: 16px; line-height: 1.65; }
   .panel-kicker,
   .console-tag,
   .empty-console-index,
-  .empty-checklist span,
   .starter-label,
   .message-label,
   .sources-heading,
@@ -456,43 +755,40 @@ body { font-size: 16px; line-height: 1.65; }
   .workbench-footer,
   .workspace-footnote,
   .site-footer {
-    font-size: 9.5px;
-    letter-spacing: .035em;
+    font-size: 11px;
+    letter-spacing: .04em;
   }
-  .hero-description { font-size: 15px; line-height: 1.75; }
-  .hero-eyebrow { font-size: 9.5px; }
-  .hero-proof { font-size: 9px; }
-  .scene-topline { font-size: 7px; }
-  .scene-coordinate { font-size: 7px; }
-  .paper-mini-top, .paper-header, .paper-footer { font-size: 6.5px; }
-  .paper-subhead, .paper-section-title { font-size: 7px; }
-  .paper-copy { font-size: 8px; line-height: 1.65; }
-  .paper-verified, .paper-stamp-muted { font-size: 6.5px; }
-  .paper-number { font-size: 6.5px; }
-  .inspect-label { font-size: 7px; }
-  .stamp-top, .stamp-bottom { font-size: 5.5px; }
-  .trace-card span { font-size: 7.5px; }
-  .trace-card strong { font-size: 8px; }
-  .scene-bottomline { font-size: 6.5px; }
-  .signal-detail { font-size: 10px; }
+  .hero-description { font-size: 15.5px; line-height: 1.7; }
+  .hero-eyebrow { font-size: 11px; }
+  .hero-proof { font-size: 11px; }
+  .scene-topline { font-size: 9px; }
+  .paper-mini-top, .paper-header, .paper-footer { font-size: 8.5px; }
+  .paper-subhead, .paper-section-title { font-size: 9px; }
+  .paper-copy { font-size: 9.5px; line-height: 1.6; }
+  .paper-verified { font-size: 8.5px; }
+  .paper-number { font-size: 8px; }
+  .inspect-label { font-size: 9px; }
+  .stamp-top, .stamp-bottom { font-size: 7.5px; }
+  .trace-card span { font-size: 9px; }
+  .trace-card strong { font-size: 10px; }
+  .scene-bottomline { font-size: 9px; }
+  .signal-detail { font-size: 11.5px; }
   .manifesto-copy p { font-size: 15px; }
-  .manifesto-copy .muted-copy { font-size: 13px; }
-  .pipeline-heading p, .workspace-heading p { font-size: 13px; }
-  .pipeline-card p { font-size: 12px; }
-  .pipeline-caption { font-size: 8px; }
-  .upload-copy { font-size: 12px; }
-  .file-mini-name { font-size: 13px; }
-  .query-panel-head h3 { font-size: 31px; }
-  .empty-console p { font-size: 12px; }
-  .empty-checklist span { font-size: 8px; }
-  .starter-prompt { font-size: 12.5px; }
-  .message-content { font-size: 14px; }
-  .source-title { font-size: 12px; }
-  .source-passage { font-size: 12.5px; }
-  .question-field input { font-size: 14px; }
-  .closing-copy p { font-size: 13px; }
-  .site-footer > span:nth-child(2) { font-size: 8.5px; }
-  .site-footer > a:not(.footer-brand) { font-size: 8.5px; }
+  .manifesto-copy .muted-copy { font-size: 13.5px; }
+  .pipeline-heading p, .workspace-heading p { font-size: 14px; }
+  .pipeline-card p { font-size: 13px; }
+  .upload-copy { font-size: 13px; }
+  .file-mini-name { font-size: 13.5px; }
+  .query-panel-head h3 { font-size: 30px; }
+  .empty-console p { font-size: 13.5px; }
+  .starter-prompt { font-size: 13.5px; }
+  .message-content { font-size: 14.5px; }
+  .source-title { font-size: 13px; }
+  .source-passage { font-size: 13.5px; }
+  .question-field input { font-size: 15px; }
+  .closing-copy p { font-size: 14.5px; }
+  .site-footer > span:nth-child(2) { font-size: 11px; }
+  .site-footer > a:not(.footer-brand) { font-size: 11px; }
 }
 
 /* Product polish */

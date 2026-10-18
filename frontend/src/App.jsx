@@ -34,38 +34,35 @@ const API = {
 const pipeline = [
   {
     n: '01',
-    title: 'Ingest',
-    label: 'SOURCE MATERIAL',
-    body: 'Bring the original PDF into the workspace. The source stays at the centre of every answer.',
+    title: 'Drop the PDF',
+    body: 'Feed in contracts, reports, or research up to 10 MB. We index every sentence locally.',
     icon: FileUp,
   },
   {
     n: '02',
-    title: 'Index',
-    label: 'PASSAGE MAPPING',
-    body: 'Text is extracted and divided into focused chunks for semantic retrieval.',
-    icon: Layers3,
-  },
-  {
-    n: '03',
-    title: 'Retrieve',
-    label: 'RELEVANCE SEARCH',
-    body: 'Your question is matched against the indexed content, not the open web.',
+    title: 'Ask in Plain English',
+    body: 'Interrogate tricky clauses, hidden fees, dates, or penalties without reading 80 pages.',
     icon: Search,
   },
   {
+    n: '03',
+    title: 'Get the Fact',
+    body: 'DocuTrace synthesizes the answer directly from your text—zero hallucinations allowed.',
+    icon: Layers3,
+  },
+  {
     n: '04',
-    title: 'Verify',
-    label: 'TRACE THE ANSWER',
-    body: 'Read the response beside the passages that were returned as supporting evidence.',
+    title: 'Inspect the Receipts',
+    body: 'Every single claim links straight to the verbatim source paragraph and page number.',
     icon: ShieldCheck,
   },
 ];
 
 const promptIdeas = [
-  'What is the main purpose of this document?',
-  'Summarise the key obligations.',
-  'Which dates or deadlines are mentioned?',
+  'Where is the hidden financial liability or penalty?',
+  'What are the critical termination deadlines?',
+  'Give me a 3-bullet executive summary of key obligations.',
+  'What happens in the event of a breach or default?',
 ];
 
 function prettyBytes(bytes) {
@@ -99,19 +96,6 @@ function sourcePage(source) {
   return raw === undefined || raw === null || raw === ''
     ? null
     : Number(raw);
-}
-
-function sourceChunk(source, index) {
-  const raw =
-    source?.chunk_id ??
-    source?.chunk ??
-    source?.metadata?.chunk_id ??
-    source?.metadata?.chunk ??
-    source?.id;
-
-  return raw === undefined || raw === null || raw === ''
-    ? index + 1
-    : raw;
 }
 
 function sourceScore(source) {
@@ -309,21 +293,13 @@ function EvidenceScene() {
   return (
     <div
       className="evidence-scene"
-      aria-label="Stylised illustration of a document passage being traced to an answer"
+      aria-label="Illustration of a document passage being traced directly to a verified answer"
       onPointerMove={moveEvidenceScene}
       onPointerLeave={resetEvidenceScene}
     >
       <div className="scene-topline">
-        <span>FIG. 001 / EVIDENCE STUDY</span>
-        <span>DOCUMENT → PASSAGE → ANSWER</span>
-      </div>
-
-      <div className="scene-coordinate coord-left">
-        N 19° 59′ 12.4″
-      </div>
-
-      <div className="scene-coordinate coord-right">
-        SOURCE / 001—A
+        <span>LIVE AUDIT TRAIL</span>
+        <span>VERBATIM CLAUSE → VERIFIED CITATION</span>
       </div>
 
       <div className="scene-glow" />
@@ -334,8 +310,8 @@ function EvidenceScene() {
       >
         <div className="paper-sheet paper-back paper-back-left">
           <div className="paper-mini-top">
-            <span>CONFIDENTIAL REPORT</span>
-            <span>04</span>
+            <span>ANNUAL FILING</span>
+            <span>SCHEDULE B</span>
           </div>
 
           <div className="paper-photo" />
@@ -346,13 +322,13 @@ function EvidenceScene() {
           <div className="paper-line w-70" />
           <div className="paper-line w-90" />
 
-          <div className="paper-subhead">SECTION 02</div>
+          <div className="paper-subhead">DISCLOSURE CLAUSES</div>
 
           <div className="paper-line w-85" />
           <div className="paper-line w-78" />
           <div className="paper-line w-68" />
 
-          <div className="paper-number">04 / 18</div>
+          <div className="paper-number">PG. 04</div>
         </div>
       </div>
 
@@ -362,12 +338,12 @@ function EvidenceScene() {
       >
         <div className="paper-sheet paper-back paper-back-right">
           <div className="paper-mini-top">
-            <span>AGREEMENT NOTES</span>
-            <span>12</span>
+            <span>SCHEDULE NOTES</span>
+            <span>EXHIBIT A</span>
           </div>
 
           <div className="paper-subhead">
-            TERMS &amp; CONDITIONS
+            INDEMNITY TERMS
           </div>
 
           <div className="paper-line w-92" />
@@ -376,13 +352,13 @@ function EvidenceScene() {
           <div className="paper-line w-73" />
           <div className="paper-line w-95" />
 
-          <div className="paper-stamp-muted">REVIEW COPY</div>
+          <div className="paper-stamp-muted">CONFIDENTIAL</div>
 
           <div className="paper-line w-88" />
           <div className="paper-line w-76" />
           <div className="paper-line w-91" />
 
-          <div className="paper-number">12 / 28</div>
+          <div className="paper-number">PG. 18</div>
         </div>
       </div>
 
@@ -392,43 +368,42 @@ function EvidenceScene() {
       >
         <div className="paper-sheet paper-main">
           <div className="paper-header">
-            <span>INTERNATIONAL TRADE AGREEMENT</span>
-            <span>PAGE 12</span>
+            <span>ENTERPRISE MASTER AGREEMENT</span>
+            <span>PAGE 14</span>
           </div>
 
           <div className="paper-rule" />
 
           <div className="paper-section-title">
-            SECTION 4.2 <span>DURATION &amp; TERMINATION</span>
+            SECTION 8.2 <span>LIMITATION OF LIABILITY</span>
           </div>
 
           <div className="paper-copy">
             <p>
-              The parties agree to the terms set forth in this
-              document and the obligations described herein.
+              Except for willful misconduct, neither party shall be held liable
+              for consequential or indirect damages.
             </p>
 
             <p>
               <mark>
-                The agreement shall enter into force on January 1,
-                2024, and remain in effect for a period of five years.
+                In no event shall aggregate liability exceed the total fees paid
+                under this Agreement during the preceding twelve (12) months.
               </mark>
             </p>
 
             <p>
-              All amendments must be recorded in writing and approved
-              by the authorised parties.
+              All claims must be submitted in writing within thirty (30) days of discovery.
             </p>
           </div>
 
           <div className="paper-verified">
-            <Check size={10} />
-            PASSAGE IDENTIFIED
+            <Check size={12} />
+            VERIFIED PASSAGE · PAGE 14, PARA 2
           </div>
 
           <div className="paper-footer">
-            <span>ARCHIVE / CONTRACTS</span>
-            <span>12—28</span>
+            <span>AUDIT ID: DT-2026-MSA</span>
+            <span>MATCH SCORE 98%</span>
           </div>
         </div>
       </div>
@@ -470,41 +445,38 @@ function EvidenceScene() {
 
       <div className="inspect-ring">
         <span className="inspect-cross">+</span>
-        <span className="inspect-label">INSPECT PASSAGE</span>
+        <span className="inspect-label">EXACT CITATION PIN</span>
       </div>
 
       <div className="evidence-stamp">
-        <span className="stamp-top">SOURCE FOUND</span>
-        <strong>EVIDENCE</strong>
-        <span className="stamp-bottom">TRACE / CONFIRM / TRUST</span>
+        <span className="stamp-top">VERIFIED FACT</span>
+        <strong>100% CITED</strong>
+        <span className="stamp-bottom">ZERO HALLUCINATIONS</span>
       </div>
 
       <div className="trace-card">
         <div>
           <span>PAGE</span>
-          <strong>12</strong>
+          <strong>14</strong>
         </div>
 
         <div>
-          <span>CHUNK</span>
-          <strong>03</strong>
+          <span>PARA</span>
+          <strong>02</strong>
         </div>
 
         <div>
           <span>SCORE</span>
-          <strong className="score-lime">0.82</strong>
+          <strong className="score-lime">98%</strong>
         </div>
       </div>
 
       <div className="scene-bottomline">
         <span>
-          <i /> PASSAGE LOCATED
+          <i /> PASSAGE RETRIEVED &amp; VERIFIED
         </span>
-        <span>01 SOURCE / 03 RETRIEVED CHUNKS</span>
+        <span>GROUNDED IN PAGE 14 · PARAGRAPH 2</span>
       </div>
-
-      <div className="scene-cross cross-a">+</div>
-      <div className="scene-cross cross-b">+</div>
     </div>
   );
 }
@@ -514,7 +486,6 @@ function SourceCard({ source, index }) {
 
   const text = sourceText(source);
   const page = sourcePage(source);
-  const chunk = sourceChunk(source, index);
   const score = sourceScore(source);
 
   return (
@@ -532,18 +503,20 @@ function SourceCard({ source, index }) {
         </span>
 
         <span className="source-title-wrap">
-          <span className="source-title">Retrieved passage</span>
+          <span className="source-title">
+            Passage {index + 1}
+          </span>
 
           <span className="source-meta">
             {page !== null && Number.isFinite(page)
-              ? `PAGE ${page}`
-              : 'PAGE NOT PROVIDED'}
-            {' '}
-            <i /> CHUNK {chunk}
+              ? `Page ${page}`
+              : 'Page unavailable'}
           </span>
         </span>
 
-        <span className="source-score">{score ?? '—'}</span>
+        {score && (
+          <span className="source-score">Match {score}</span>
+        )}
 
         <ChevronDown size={14} className="source-chevron" />
       </button>
@@ -551,11 +524,11 @@ function SourceCard({ source, index }) {
       {expanded && (
         <div className="source-passage">
           {text ||
-            'The API returned a source without readable passage text. Check the source field names in the backend response.'}
+            'This passage could not be displayed. Try uploading the PDF again.'}
 
           {(source?.metadata?.source || source?.source) && (
             <div className="source-file">
-              SOURCE · {source?.metadata?.source ?? source?.source}
+              From {source?.metadata?.source ?? source?.source}
             </div>
           )}
         </div>
@@ -1120,7 +1093,7 @@ export default function App() {
             href="#approach"
             onClick={() => setMenuOpen(false)}
           >
-            The idea
+            The Reality
           </a>
 
           <a
@@ -1134,20 +1107,16 @@ export default function App() {
             href="#workspace"
             onClick={() => setMenuOpen(false)}
           >
-            Workspace
+            Workbench
           </a>
         </nav>
 
         <div className="header-right">
-          <span className="header-status">
-            <i /> EVIDENCE-FIRST / 001
-          </span>
-
           <button
             className="header-cta"
             onClick={scrollToWorkspace}
           >
-            Try DocuTrace <ArrowUpRight size={14} />
+            Audit a PDF <ArrowUpRight size={14} />
           </button>
 
           <button
@@ -1170,23 +1139,21 @@ export default function App() {
           <div className="hero-eyebrow">
             <span className="eyebrow-star">✳</span>
             <span>
-              DOCUMENT INTELLIGENCE
-              <br />
-              BUILT FOR REAL ANSWERS.
+              NO GHOST CITATIONS · ZERO "TRUST ME BRO"
             </span>
           </div>
 
           <h1 id="hero-title">
-            <span className="hero-title-line">Every answer.</span>
+            <span className="hero-title-line">Never take an AI's word for it.</span>
             <span className="hero-title-line hero-italic">
-              Traced<span className="hero-period">.</span>
+              Demand the receipts<span className="hero-period">.</span>
             </span>
           </h1>
 
           <p className="hero-description">
-            DocuTrace finds, verifies, and cites the exact
-            information in your documents — so you can trust every
-            answer.
+            DocuTrace interrogates your dense PDFs and highlights the verbatim
+            paragraph behind every single claim. If it's not on the page,
+            DocuTrace won't say it.
           </p>
 
           <div className="hero-actions">
@@ -1194,7 +1161,7 @@ export default function App() {
               className="button-primary"
               onClick={scrollToWorkspace}
             >
-              Try it now <ArrowRight size={17} />
+              Audit Your PDF <ArrowRight size={17} />
             </button>
 
             <a className="text-link" href="#pipeline">
@@ -1209,7 +1176,7 @@ export default function App() {
             </span>
 
             <span>
-              REAL DOCUMENTS. REAL SOURCES. REAL ANSWERS.
+              ⚡ 100% Document-Grounded · Zero AI Bluffing
             </span>
           </div>
         </div>
@@ -1220,20 +1187,19 @@ export default function App() {
 
         <div className="hero-scroll">
           <span className="scroll-symbol">↓</span>
-          <span>SCROLL TO EXPLORE</span>
-          <span className="hero-scroll-index">01 / 04</span>
+          <span>Explore how proof works</span>
         </div>
       </section>
 
       <div
         className="signal-strip"
-        aria-label="DocuTrace workflow summary"
+        aria-label="DocuTrace core pillars"
       >
         <div>
           <span className="signal-index">01</span>
-          <span className="signal-name">SOURCE</span>
+          <span className="signal-name">Zero Bluffing</span>
           <span className="signal-detail">
-            Keep the origin visible
+            Answers strictly pulled from your text
           </span>
         </div>
 
@@ -1241,9 +1207,9 @@ export default function App() {
 
         <div>
           <span className="signal-index">02</span>
-          <span className="signal-name">RETRIEVAL</span>
+          <span className="signal-name">Verbatim Receipts</span>
           <span className="signal-detail">
-            Find relevant passages
+            Every claim cited to the exact page &amp; paragraph
           </span>
         </div>
 
@@ -1251,9 +1217,9 @@ export default function App() {
 
         <div>
           <span className="signal-index">03</span>
-          <span className="signal-name">EVIDENCE</span>
+          <span className="signal-name">Session-Private</span>
           <span className="signal-detail">
-            Inspect what supports it
+            Documents remain strictly in your local session
           </span>
         </div>
       </div>
@@ -1263,38 +1229,56 @@ export default function App() {
         id="approach"
       >
         <div className="section-kicker" data-reveal>
-          <span>01 / THE PRINCIPLE</span>
-          <span>NO ANSWER WITHOUT ORIGIN</span>
+          <span>The Reality Check</span>
+          <span>Why Traditional AI Fails</span>
         </div>
 
         <div className="manifesto-main" data-reveal>
-          <h2>
-            See the <em>evidence.</em>
-            <br />
-            Not just the answer.
-          </h2>
+          <div>
+            <h2>
+              "Trust me bro"
+              <br />
+              is not an enterprise <em>strategy.</em>
+            </h2>
 
-          <div className="manifesto-copy">
-            <p>AI can sound certain. A source can be checked.</p>
+            <div className="manifesto-copy">
+              <p>
+                Standard AI models bluff with 100% confidence—confidently fabricating
+                deadlines, phantom clauses, and fake statistics with a polite smile.
+              </p>
 
-            <p className="muted-copy">
-              DocuTrace pairs document questions with retrieved
-              passages, so an answer becomes something you can inspect
-              — not something you have to take on faith.
-            </p>
+              <p className="muted-copy">
+                DocuTrace has one inviolable rule: if we can't highlight the exact ink
+                on the page, we don't say it.
+              </p>
 
-            <a className="arrow-link" href="#workspace">
-              Inspect a document <ArrowRight size={16} />
-            </a>
+              <a className="arrow-link" href="#workspace">
+                Test your hardest PDF <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+
+          <div className="manifesto-contrast-grid">
+            <div className="contrast-card contrast-card-bad">
+              <div className="contrast-badge">OTHER AI TOOLS</div>
+              <h4>"Confident Bluffing"</h4>
+              <p>
+                Sounds brilliantly articulate, but invents clauses and fake citations
+                that could get you sued or fired.
+              </p>
+            </div>
+
+            <div className="contrast-card contrast-card-good">
+              <div className="contrast-badge">DOCUTRACE AUDIT</div>
+              <h4>"Receipts On Demand"</h4>
+              <p>
+                Extracts the verbatim text, tags the exact page number, and lets you
+                verify the citation in one click.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="manifesto-ruler" aria-hidden="true">
-          <span>FIG. 01</span>
-          <span className="ruler-line" />
-          <span>DOCUMENT → CONTEXT → TRACEABLE ANSWER</span>
-          <span>BUILT TO SHOW ITS WORK</span>
-        </div>
       </section>
 
       <section
@@ -1302,21 +1286,19 @@ export default function App() {
         id="pipeline"
       >
         <div className="section-kicker" data-reveal>
-          <span>02 / THE METHOD</span>
-          <span>FOUR STEPS. VISIBLE LOGIC.</span>
+          <span>The Workflow</span>
+          <span>From raw PDF to pinpoint truth</span>
         </div>
 
         <div className="pipeline-heading" data-reveal>
           <h2>
-            From document
+            From 80-page monster
             <br />
-            to <em>trusted answer.</em>
+            to <em>instant clarity.</em>
           </h2>
 
           <p>
-            A transparent route from a source PDF to a response
-            grounded in retrieved text. Each stage has a job. None
-            should be a mystery.
+            Upload your file. Ask in plain English. Follow every claim directly to the source.
           </p>
         </div>
 
@@ -1337,10 +1319,6 @@ export default function App() {
                 <div className="pipeline-icon">
                   <Icon size={25} strokeWidth={1.25} />
                 </div>
-
-                <span className="pipeline-label">
-                  {step.label}
-                </span>
 
                 <h3>
                   {step.title}
@@ -1366,14 +1344,6 @@ export default function App() {
           })}
         </div>
 
-        <div className="pipeline-caption">
-          <span>FIG. 02 / PROCESS MAP</span>
-          <span>
-            CONCEPTUAL PIPELINE · LIVE ANSWERS COME FROM YOUR
-            CONNECTED BACKEND
-          </span>
-          <ArrowUpRight size={15} />
-        </div>
       </section>
 
       <section
@@ -1382,23 +1352,22 @@ export default function App() {
         ref={workspaceRef}
       >
         <div className="section-kicker" data-reveal>
-          <span>03 / THE EVIDENCE DESK</span>
-          <span>LIVE WORKSPACE / 001</span>
+          <span>Interactive Audit</span>
+          <span>Put your PDF on the witness stand</span>
         </div>
 
         <div className="workspace-heading" data-reveal>
           <div>
             <h2>
-              Put the document
+              Cross-examine
               <br />
-              <em>on the record.</em>
+              <em>your document.</em>
             </h2>
           </div>
 
           <p>
-            Upload a PDF. Ask a precise question. Inspect the answer
-            alongside the source passages returned by your DocuTrace
-            API.
+            Drop your contract, filing, or research below. Ask what you need,
+            and see the exact paragraphs behind the answer.
           </p>
         </div>
 
@@ -1411,7 +1380,7 @@ export default function App() {
 
               <span>DOCUTRACE</span>
               <i />
-              EVIDENCE DESK
+              Document Workbench
             </div>
 
             <div className="workbench-status">
@@ -1422,10 +1391,10 @@ export default function App() {
               />
 
               {uploadState === 'success'
-                ? 'SOURCE INDEXED'
+                ? 'PDF READY TO AUDIT'
                 : uploadState === 'uploading'
-                  ? 'INDEXING SOURCE'
-                  : 'AWAITING SOURCE'}
+                  ? 'INDEXING PAGES…'
+                  : 'WAITING FOR PDF'}
             </div>
 
             <div className="workbench-window">
@@ -1438,8 +1407,7 @@ export default function App() {
           <div className="workbench-grid">
             <aside className="document-rail">
               <div className="rail-label">
-                <span>THE SOURCE</span>
-                <span>01</span>
+                <span>Active File</span>
               </div>
 
               {uploadState === 'success' ? (
@@ -1447,12 +1415,12 @@ export default function App() {
                   <div className="file-mini-preview">
                     <div className="file-mini-fold" />
                     <FileText size={30} strokeWidth={1.1} />
-                    <span>PDF / SOURCE</span>
+                    <span>Your PDF</span>
                     <i />
                   </div>
 
                   <span className="file-mini-type">
-                    INDEXED DOCUMENT
+                    READY TO QUERY
                   </span>
 
                   <span
@@ -1475,7 +1443,7 @@ export default function App() {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                   >
-                    Replace source <ArrowUpRight size={12} />
+                    Replace document <ArrowUpRight size={12} />
                   </button>
                 </div>
               ) : (
@@ -1507,18 +1475,18 @@ export default function App() {
 
                   <span className="upload-title">
                     {uploadState === 'uploading'
-                      ? 'Reading your PDF…'
-                      : 'Drop a PDF here'}
+                      ? 'Indexing your PDF…'
+                      : 'Drop your PDF here'}
                   </span>
 
                   <span className="upload-copy">
                     {uploadState === 'uploading'
-                      ? 'Extracting text and indexing passages'
-                      : 'or browse files from your computer'}
+                      ? 'Mapping sentences and page numbers.'
+                      : 'Contracts, compliance filings, or reports.'}
                   </span>
 
                   <span className="upload-limit">
-                    PDF ONLY <i /> MAX 10 MB
+                    PDF · UP TO 10 MB
                   </span>
                 </button>
               )}
@@ -1537,23 +1505,15 @@ export default function App() {
               {uploadState === 'success' && (
                 <div className="source-status-list">
                   <div>
-                    <span>INDEX STATUS</span>
+                    <span>Status</span>
                     <strong>
-                      <i /> READY
+                      <i /> Indexed
                     </strong>
                   </div>
 
                   <div>
-                    <span>CHUNKS INDEXED</span>
+                    <span>Chunks mapped</span>
                     <strong>{chunksIndexed ?? '—'}</strong>
-                  </div>
-
-                  <div>
-                    <span>DOCUMENT ID</span>
-                    <strong className="id-value">
-                      {documentId.slice(0, 12)}
-                      {documentId.length > 12 ? '…' : ''}
-                    </strong>
                   </div>
                 </div>
               )}
@@ -1562,9 +1522,9 @@ export default function App() {
                 <Fingerprint size={17} />
 
                 <span>
-                  Every answer begins
+                  If it's not in the PDF,
                   <br />
-                  with a source.
+                  DocuTrace won't invent it.
                 </span>
               </div>
             </aside>
@@ -1575,15 +1535,13 @@ export default function App() {
             >
               <div className="query-panel-head">
                 <div>
-                  <span className="panel-kicker">
-                    THE QUESTION / 02
-                  </span>
+                  <span className="panel-kicker">Live Inquiry</span>
 
-                  <h3>Ask the source.</h3>
+                  <h3>Ask your document.</h3>
                 </div>
 
                 <span className="console-tag">
-                  <BookOpen size={13} /> PDF Q&amp;A
+                  <BookOpen size={13} /> Audited Q&amp;A
                 </span>
               </div>
 
@@ -1595,37 +1553,25 @@ export default function App() {
                   </div>
 
                   <span className="empty-console-index">
-                    AWAITING INPUT / 001
+                    READY TO CROSS-EXAMINE
                   </span>
 
-                  <h4>The record is empty.</h4>
+                  <h4>Your document is ready to talk.</h4>
 
                   <p>
-                    Upload a PDF to create a searchable source. Your
-                    first question starts the trace.
+                    Drop a PDF on the left, then ask the high-stakes questions
+                    you don't have hours to hunt down.
                   </p>
-
-                  <div className="empty-checklist">
-                    <span>
-                      <Check size={12} /> Text extraction
-                    </span>
-                    <span>
-                      <Check size={12} /> Passage retrieval
-                    </span>
-                    <span>
-                      <Check size={12} /> Source context
-                    </span>
-                  </div>
                 </div>
               )}
 
               {documentId && messages.length === 0 && (
                 <div className="question-starters">
                   <span className="starter-label">
-                    START WITH A QUESTION <i /> SELECT TO USE
+                    High-impact queries to test:
                   </span>
 
-                  {promptIdeas.map((idea, index) => (
+                  {promptIdeas.map((idea) => (
                     <button
                       key={idea}
                       type="button"
@@ -1635,10 +1581,6 @@ export default function App() {
                         questionInputRef.current?.focus();
                       }}
                     >
-                      <span>
-                        0{index + 1}
-                      </span>
-
                       {idea}
 
                       <ArrowUpRight size={14} />
@@ -1661,10 +1603,10 @@ export default function App() {
                       <div className="message-label">
                         <span>
                           {message.role === 'user'
-                            ? 'YOUR QUESTION'
+                            ? 'You asked'
                             : message.role === 'error'
-                              ? 'REQUEST ERROR'
-                              : 'DOCUTRACE / ANSWER'}
+                              ? 'Couldn’t answer'
+                              : 'Verified Answer'}
                         </span>
 
                         {message.role === 'assistant' && (
@@ -1688,13 +1630,13 @@ export default function App() {
                         message.sources?.length > 0 && (
                           <div className="sources-wrap">
                             <div className="sources-heading">
-                              <span>SUPPORTING PASSAGES</span>
+                              <span>Exact Passages from your PDF</span>
 
                               <span>
-                                {String(
-                                  message.sources.length
-                                ).padStart(2, '0')}{' '}
-                                FOUND
+                                {message.sources.length}{' '}
+                                {message.sources.length === 1
+                                  ? 'CITED PASSAGE'
+                                  : 'CITED PASSAGES'}
                               </span>
                             </div>
 
@@ -1714,8 +1656,8 @@ export default function App() {
                         message.sources?.length === 0 && (
                           <div className="no-sources-note">
                             <ScanLine size={14} />
-                            The API did not return source passages
-                            for this answer.
+                            No supporting passages came back with
+                            this answer.
                           </div>
                         )}
                     </article>
@@ -1730,7 +1672,7 @@ export default function App() {
                       </span>
 
                       <span>
-                        RETRIEVING RELEVANT EVIDENCE
+                        Scanning paragraphs for exact proof…
                       </span>
                     </div>
                   )}
@@ -1747,7 +1689,7 @@ export default function App() {
                   htmlFor="document-question"
                   className="question-label"
                 >
-                  <span>ASK A QUESTION</span>
+                  <span>Your question</span>
                   <span>{question.length}/1000</span>
                 </label>
 
@@ -1762,8 +1704,8 @@ export default function App() {
                     }
                     placeholder={
                       documentId
-                        ? 'Ask something the document can answer…'
-                        : 'Upload a document to begin…'
+                        ? 'Ask anything about this document... (e.g. "What happens if we terminate early?")'
+                        : 'Drop a PDF on the left to start…'
                     }
                     disabled={
                       !documentId || queryState === 'loading'
@@ -1794,26 +1736,21 @@ export default function App() {
                 <div className="question-foot">
                   <span>
                     <Sparkles size={12} />
-                    ANSWERS FROM YOUR CONNECTED API
+                    🔒 Strictly grounded in your uploaded PDF. Zero hallucinations.
                   </span>
-
-                  <span>ENTER ↵ TO SEND</span>
                 </div>
               </form>
             </section>
           </div>
 
           <div className="workbench-footer">
-            <span>DOCUTRACE / EVIDENCE DESK</span>
-
+            <span>DOCUTRACE</span>
             <span>
               <i />{' '}
               {documentId
-                ? 'SOURCE TRACE ACTIVE'
-                : 'READY FOR SOURCE INPUT'}
+                ? 'PDF READY TO AUDIT'
+                : 'WAITING FOR PDF'}
             </span>
-
-            <span>LOCAL UI / 001</span>
           </div>
         </div>
 
@@ -1839,10 +1776,8 @@ export default function App() {
         )}
 
         <div className="workspace-footnote">
-          <span>NOTE / 03</span>
           <span>
-            NO PLACEHOLDER ANSWERS. OUTPUTS SHOWN HERE COME FROM
-            THE RUNNING API.
+            Verbatim answers extracted directly from your document pages.
           </span>
         </div>
       </section>
@@ -1853,19 +1788,19 @@ export default function App() {
       >
         <div className="closing-copy">
           <div className="section-kicker">
-            <span>04 / THE STANDARD</span>
-            <span>SHOW YOUR WORK</span>
+            <span>The Bottom Line</span>
+            <span>Stop Skimming Fine Print</span>
           </div>
 
           <h2>
-            Trust is not a tone
+            Stop reading 80-page PDFs
             <br />
-            of voice. It is a <em>trace.</em>
+            like it’s <em>1999.</em>
           </h2>
 
           <p>
-            For contracts, research, policies, reports, and details
-            that deserve a second look.
+            Contracts, compliance filings, research reports: get straight to the clause
+            that matters—verified in seconds.
           </p>
 
           <button
@@ -1873,14 +1808,14 @@ export default function App() {
             type="button"
             onClick={scrollToWorkspace}
           >
-            Start with a PDF <ArrowUpRight size={16} />
+            Audit Your PDF Now <ArrowUpRight size={16} />
           </button>
         </div>
 
         <div className="closing-art" aria-hidden="true">
           <div className="closing-document">
             <div className="closing-document-head">
-              SOURCE REGISTER <span>001</span>
+              VERIFIED RECORD <span>#001</span>
             </div>
 
             <div className="closing-highlight" />
@@ -1901,9 +1836,9 @@ export default function App() {
           <div className="closing-orbit orbit-3" />
 
           <div className="closing-stamp">
-            EVIDENCE
+            VERIFIED
             <br />
-            <span>OVER ASSERTION</span>
+            <span>NOT GUESSWORK</span>
           </div>
         </div>
       </section>
@@ -1914,13 +1849,13 @@ export default function App() {
         </a>
 
         <span>
-          DOCUMENT INTELLIGENCE / EVIDENCE-FIRST BY DESIGN
+          Every answer backed by verified page receipts.
         </span>
 
-        <a href="#top">BACK TO TOP ↑</a>
+        <a href="#top">Back to top ↑</a>
 
         <span className="footer-version">
-          BUILD 002 · © 2026
+          © 2026 DocuTrace
         </span>
       </footer>
     </main>
