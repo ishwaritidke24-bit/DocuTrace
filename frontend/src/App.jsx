@@ -1271,26 +1271,26 @@ export default function App() {
       >
         <div className="section-kicker" data-reveal>
           <span>The Reality Check</span>
-          <span>Why Traditional AI Fails</span>
+          <span>Zero Fiction · Strict Asserts</span>
         </div>
 
         <div className="manifesto-main" data-reveal>
           <div>
             <h2>
-              "Trust me bro"
+              AI will invent an answer
               <br />
-              is not an enterprise <em>strategy.</em>
+              just to close the <em>ticket.</em>
             </h2>
 
             <div className="manifesto-copy">
               <p>
-                Standard AI models bluff with 100% confidence—confidently fabricating
-                deadlines, phantom clauses, and fake statistics with a polite smile.
+                LLMs hate saying "I don't know," so they'll cheerfully draft a fake
+                indemnity clause with 100% swagger.
               </p>
 
               <p className="muted-copy">
-                DocuTrace has one inviolable rule: if we can't highlight the exact ink
-                on the page, we don't say it.
+                DocuTrace runs strict assertions: if it's not inked in the PDF, throw an
+                error. Every claim is handcuffed to the physical page number.
               </p>
 
               <a className="arrow-link" href="#workspace">
@@ -1301,20 +1301,20 @@ export default function App() {
 
           <div className="manifesto-contrast-grid">
             <div className="contrast-card contrast-card-bad">
-              <div className="contrast-badge">OTHER AI TOOLS</div>
-              <h4>"Confident Bluffing"</h4>
+              <div className="contrast-badge">OTHER AI: CLOSED AS COMPLETED</div>
+              <h4>"Phantom Hallucination"</h4>
               <p>
-                Sounds brilliantly articulate, but invents clauses and fake citations
-                that could get you sued or fired.
+                Claimed it found the clause. Spoiler: It was an optical illusion that won't
+                survive a five-second audit.
               </p>
             </div>
 
             <div className="contrast-card contrast-card-good">
-              <div className="contrast-badge">DOCUTRACE AUDIT</div>
-              <h4>"Receipts On Demand"</h4>
+              <div className="contrast-badge">DOCUTRACE: VERIFIED PATCH</div>
+              <h4>"Assertion Passed"</h4>
               <p>
-                Extracts the verbatim text, tags the exact page number, and lets you
-                verify the citation in one click.
+                Verbatim highlighted excerpt with page number and verifiable matching
+                confidence scores.
               </p>
             </div>
           </div>
