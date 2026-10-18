@@ -102,11 +102,12 @@ button { color: inherit; }
 .wordmark sup { font: 8px var(--mono); color: var(--muted); vertical-align: top; margin-left: 3px; }
 .wordmark-symbol { width: 26px; height: 26px; display: grid; place-items: center; color: var(--lime); position: relative; }
 .wordmark-symbol::after { content: ''; width: 4px; height: 4px; background: var(--lime); position: absolute; border-radius: 50%; box-shadow: 0 0 12px rgba(198,255,61,.5); }
-.main-nav { display: flex; align-items: center; gap: clamp(20px, 3vw, 43px); }
-.main-nav a { position: relative; font: 9px var(--mono); text-transform: uppercase; letter-spacing: .13em; color: #aeb6a5; transition: color .25s ease; padding: 9px 0; }
-.main-nav a::after { content: ''; position: absolute; left: 0; bottom: 2px; width: 0; height: 1px; background: var(--lime); transition: width .3s ease; }
+.main-nav { display: flex; align-items: center; gap: clamp(12px, 2vw, 32px); }
+.main-nav a { position: relative; font: 12px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: #aeb6a5; transition: color .25s ease, background .25s ease; padding: 7px 14px; border-radius: 999px; }
+.main-nav a::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 2px; width: 0; height: 2px; background: var(--lime); transition: width .3s ease; box-shadow: 0 0 10px rgba(198,255,61,.7); }
 .main-nav a:hover, .main-nav a.nav-active { color: var(--lime); }
-.main-nav a:hover::after, .main-nav a.nav-active::after { width: 100%; }
+.main-nav a.nav-active { background: rgba(198,255,61,.1); font-weight: 600; }
+.main-nav a:hover::after, .main-nav a.nav-active::after { width: calc(100% - 28px); }
 .header-right { display: flex; justify-content: flex-end; align-items: center; gap: 20px; }
 .header-status { color: #87917d; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font: 8px var(--mono); letter-spacing: .08em; }
 .header-status i, .status-point, .workbench-footer i { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 9px rgba(198,255,61,.4); }

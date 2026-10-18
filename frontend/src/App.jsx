@@ -557,6 +557,7 @@ export default function App() {
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState([]);
   const [notice, setNotice] = useState('');
+  const [activeNav, setActiveNav] = useState('top');
 
   useEffect(() => {
     const reduceMotion = window.matchMedia(
@@ -803,7 +804,45 @@ export default function App() {
     });
   }, [messages, queryState]);
 
+  useEffect(() => {
+    const sections = ['top', 'approach', 'pipeline', 'workspace'];
+
+    const handleScrollSpy = () => {
+      // If at or near bottom of document, highlight workspace
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 80
+      ) {
+        setActiveNav('workspace');
+        return;
+      }
+
+      let current = 'top';
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 180) {
+            current = id;
+          }
+        }
+      }
+      setActiveNav(current);
+    };
+
+    window.addEventListener('scroll', handleScrollSpy, { passive: true });
+    handleScrollSpy();
+
+    return () => window.removeEventListener('scroll', handleScrollSpy);
+  }, []);
+
+  const handleNavClick = (id) => {
+    setActiveNav(id);
+    setMenuOpen(false);
+  };
+
   const scrollToWorkspace = useCallback(() => {
+    setActiveNav('workspace');
     workspaceRef.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
@@ -1083,29 +1122,32 @@ export default function App() {
         >
           <a
             href="#top"
-            onClick={() => setMenuOpen(false)}
-            className="nav-active"
+            onClick={() => handleNavClick('top')}
+            className={activeNav === 'top' ? 'nav-active' : ''}
           >
             Home
           </a>
 
           <a
             href="#approach"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => handleNavClick('approach')}
+            className={activeNav === 'approach' ? 'nav-active' : ''}
           >
             The Reality
           </a>
 
           <a
             href="#pipeline"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => handleNavClick('pipeline')}
+            className={activeNav === 'pipeline' ? 'nav-active' : ''}
           >
             How it works
           </a>
 
           <a
             href="#workspace"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => handleNavClick('workspace')}
+            className={activeNav === 'workspace' ? 'nav-active' : ''}
           >
             Workbench
           </a>
