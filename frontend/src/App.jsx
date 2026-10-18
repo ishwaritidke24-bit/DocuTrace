@@ -1139,21 +1139,21 @@ export default function App() {
           <div className="hero-eyebrow">
             <span className="eyebrow-star">✳</span>
             <span>
-              NO GHOST CITATIONS · ZERO "TRUST ME BRO"
+              FOR ANYONE WHO CAN'T AFFORD TO BE WRONG
             </span>
           </div>
 
           <h1 id="hero-title">
-            <span className="hero-title-line">Never take an AI's word for it.</span>
+            <span className="hero-title-line">Your AI is lying to you.</span>
             <span className="hero-title-line hero-italic">
-              Demand the receipts<span className="hero-period">.</span>
+              Politely. Confidently. In 4K<span className="hero-period">.</span>
             </span>
           </h1>
 
           <p className="hero-description">
-            DocuTrace interrogates your dense PDFs and highlights the verbatim
-            paragraph behind every single claim. If it's not on the page,
-            DocuTrace won't say it.
+            DocuTrace is the antidote to algorithmic gaslighting. Drop in any dense PDF
+            and get answers handcuffed to the verbatim paragraph and page number—because
+            "the bot seemed pretty sure" is not a legal defense.
           </p>
 
           <div className="hero-actions">
@@ -1161,7 +1161,7 @@ export default function App() {
               className="button-primary"
               onClick={scrollToWorkspace}
             >
-              Audit Your PDF <ArrowRight size={17} />
+              Cross-Examine Your PDF <ArrowRight size={17} />
             </button>
 
             <a className="text-link" href="#pipeline">
@@ -1176,7 +1176,7 @@ export default function App() {
             </span>
 
             <span>
-              ⚡ 100% Document-Grounded · Zero AI Bluffing
+              ⚡ 100% Verbatim Proof · 0% Creative Fiction
             </span>
           </div>
         </div>
