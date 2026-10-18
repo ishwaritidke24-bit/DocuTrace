@@ -1144,16 +1144,15 @@ export default function App() {
           </div>
 
           <h1 id="hero-title">
-            <span className="hero-title-line">Your AI is lying to you.</span>
+            <span className="hero-title-line">Stop speed-reading 90 pages</span>
             <span className="hero-title-line hero-italic">
-              Politely. Confidently. In 4K<span className="hero-period">.</span>
+              like a panicked intern<span className="hero-period">.</span>
             </span>
           </h1>
 
           <p className="hero-description">
-            DocuTrace is the antidote to algorithmic gaslighting. Drop in any dense PDF
-            and get answers handcuffed to the verbatim paragraph and page number—because
-            "the bot seemed pretty sure" is not a legal defense.
+            Ask the brutal questions about liabilities, deadlines, and fine print.
+            DocuTrace hands you the verdict and the exact paragraph that backs it up.
           </p>
 
           <div className="hero-actions">
