@@ -1307,42 +1307,44 @@ export default function App() {
             <h2>
               AI will invent an answer
               <br />
-              just to close the <em>ticket.</em>
+              rather than say <em>"I don't know."</em>
             </h2>
 
             <div className="manifesto-copy">
               <p>
-                LLMs hate saying "I don't know," so they'll cheerfully draft a fake
-                indemnity clause with 100% swagger.
+                Standard AI models hate admitting when they don't have the answer.
+                They will confidently make up facts, dates, and terms that sound real
+                but don't actually exist in your document.
               </p>
 
               <p className="muted-copy">
-                DocuTrace runs strict assertions: if it's not inked in the PDF, throw an
-                error. Every claim is handcuffed to the physical page number.
+                DocuTrace never guesses. If it's not written directly on the page,
+                DocuTrace won't say it. Every single answer is linked to the exact
+                page and paragraph so you can verify it yourself.
               </p>
 
               <a className="arrow-link" href="#workspace">
-                Test your hardest PDF <ArrowRight size={16} />
+                Try it with your document <ArrowRight size={16} />
               </a>
             </div>
           </div>
 
           <div className="manifesto-contrast-grid">
             <div className="contrast-card contrast-card-bad">
-              <div className="contrast-badge">OTHER AI: CLOSED AS COMPLETED</div>
-              <h4>"Phantom Hallucination"</h4>
+              <div className="contrast-badge">OTHER AI: SOUNDS CONFIDENT</div>
+              <h4>"Pure Guesswork"</h4>
               <p>
-                Claimed it found the clause. Spoiler: It was an optical illusion that won't
-                survive a five-second audit.
+                Gives you a convincing, polished answer that seems right—until you search
+                your PDF and realize it was completely made up.
               </p>
             </div>
 
             <div className="contrast-card contrast-card-good">
-              <div className="contrast-badge">DOCUTRACE: VERIFIED PATCH</div>
-              <h4>"Assertion Passed"</h4>
+              <div className="contrast-badge">DOCUTRACE: 100% PROVEN</div>
+              <h4>"Verifiable Receipts"</h4>
               <p>
-                Verbatim highlighted excerpt with page number and verifiable matching
-                confidence scores.
+                Shows the exact word-for-word quote from your document, along with the
+                page number and match score so you have instant proof.
               </p>
             </div>
           </div>
