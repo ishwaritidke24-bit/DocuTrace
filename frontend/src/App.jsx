@@ -46,11 +46,13 @@ function DocuTraceLogoIcon({ size = 20, className = '' }) {
   );
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+const API_BASE_URL = (
+  import.meta.env.VITE_API_URL || 'https://docutrace-api-z7xd.onrender.com'
+).replace(/\/+$/, '');
 
 const API = {
-  upload: API_BASE_URL ? `${API_BASE_URL}/upload` : '/api/upload',
-  query: API_BASE_URL ? `${API_BASE_URL}/query` : '/api/query',
+  upload: `${API_BASE_URL}/upload`,
+  query: `${API_BASE_URL}/query`,
 };
 
 const pipeline = [
