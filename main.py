@@ -37,14 +37,17 @@ default_origins = [
     "http://127.0.0.1:5173",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://docu-trace-rust.vercel.app",
 ]
 
 allowed_origins = list(dict.fromkeys(default_origins + configured_origins))
+allow_all = "*" in allowed_origins or raw_origins.strip() == "*"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins if allowed_origins else ["*"],
-    allow_credentials=True,
+    allow_origins=["*"] if allow_all else allowed_origins,
+    allow_origin_regex=None if allow_all else r"https://.*\.vercel\.app",
+    allow_credentials=not allow_all,
     allow_methods=["*"],
     allow_headers=["*"],
 )

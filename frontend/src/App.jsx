@@ -979,11 +979,11 @@ export default function App() {
         msg.includes('502')
       ) {
         setNotice(
-          'FastAPI backend is offline or unreachable on port 8000. Start it with: uvicorn main:app'
+          'Backend is currently unreachable or waking up from sleep. Please wait a moment and try again.'
         );
       } else {
         setNotice(
-          msg || 'Could not upload this PDF. Check that FastAPI is running on port 8000.'
+          msg || 'Could not upload this PDF. Please check the backend connection.'
         );
       }
     }
