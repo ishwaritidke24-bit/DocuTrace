@@ -59,10 +59,10 @@ const pipeline = [
 ];
 
 const promptIdeas = [
-  'Where is the hidden financial liability or penalty?',
-  'What are the critical termination deadlines?',
-  'Give me a 3-bullet executive summary of key obligations.',
-  'What happens in the event of a breach or default?',
+  'What is the main topic and purpose of this document?',
+  'Can you provide a concise summary of the key points?',
+  'What are the most important findings or takeaways?',
+  'What conclusions or recommendations are mentioned in this document?',
 ];
 
 function prettyBytes(bytes) {
@@ -867,12 +867,9 @@ export default function App() {
 
     setNotice('');
 
-    if (
-      !file.name.toLowerCase().endsWith('.pdf') ||
-      (file.type && file.type !== 'application/pdf')
-    ) {
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
       setUploadState('error');
-      setNotice('Choose a PDF file to continue.');
+      setNotice('Choose a valid .pdf file to continue.');
       return;
     }
 
@@ -950,10 +947,21 @@ export default function App() {
       console.error('[DocuTrace] Upload failed:', error);
 
       setUploadState('error');
-      setNotice(
-        error.message ||
-        'Could not upload this PDF. Check that FastAPI is running.'
-      );
+      const msg = error?.message || '';
+      if (
+        msg.includes('Failed to fetch') ||
+        msg.includes('NetworkError') ||
+        msg.includes('504') ||
+        msg.includes('502')
+      ) {
+        setNotice(
+          'FastAPI backend is offline or unreachable on port 8000. Start it with: uvicorn main:app'
+        );
+      } else {
+        setNotice(
+          msg || 'Could not upload this PDF. Check that FastAPI is running on port 8000.'
+        );
+      }
     }
   };
 
@@ -1609,10 +1617,10 @@ export default function App() {
               {documentId && messages.length === 0 && (
                 <div className="question-starters">
                   <span className="starter-label">
-                    High-impact queries to test:
+                    Recommended questions:
                   </span>
 
-                  {promptIdeas.map((idea) => (
+                  {promptIdeas.map((idea, idx) => (
                     <button
                       key={idea}
                       type="button"
@@ -1622,9 +1630,11 @@ export default function App() {
                         questionInputRef.current?.focus();
                       }}
                     >
-                      {idea}
-
-                      <ArrowUpRight size={14} />
+                      <span className="starter-index">
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="starter-prompt-text">{idea}</span>
+                      <ArrowUpRight size={15} />
                     </button>
                   ))}
                 </div>
@@ -1885,19 +1895,39 @@ export default function App() {
       </section>
 
       <footer className="site-footer">
-        <a className="footer-brand" href="#top">
-          <Orbit size={18} /> DOCUTRACE
-        </a>
+        <div className="footer-content">
+          <div className="footer-top">
+            <div className="footer-brand-wrap">
+              <a className="footer-brand" href="#top" onClick={() => handleNavClick('top')}>
+                <Orbit size={20} /> DOCUTRACE
+              </a>
+              <p className="footer-tagline">
+                AI answers backed by verified page receipts. Zero hallucinations.
+              </p>
+            </div>
 
-        <span>
-          Every answer backed by verified page receipts.
-        </span>
+            <nav className="footer-nav" aria-label="Footer Navigation">
+              <a href="#top" onClick={() => handleNavClick('top')}>Home</a>
+              <a href="#approach" onClick={() => handleNavClick('approach')}>The Reality</a>
+              <a href="#pipeline" onClick={() => handleNavClick('pipeline')}>How it works</a>
+              <a href="#workspace" onClick={() => handleNavClick('workspace')}>Workbench</a>
+            </nav>
 
-        <a href="#top">Back to top ↑</a>
+            <a className="back-to-top" href="#top" onClick={() => handleNavClick('top')}>
+              Back to top ↑
+            </a>
+          </div>
 
-        <span className="footer-version">
-          © 2026 DocuTrace
-        </span>
+          <div className="footer-bottom">
+            <span className="footer-dev">
+              Developed by <strong>Ishwari Tidke</strong> @2026
+            </span>
+
+            <span className="footer-rights">
+              © 2026 DocuTrace · All rights reserved.
+            </span>
+          </div>
+        </div>
       </footer>
     </main>
   );

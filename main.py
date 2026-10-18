@@ -1,9 +1,22 @@
 import math
 import re
+import sys
 import uuid
+
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 import pymupdf
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from llm_service import generate_answer
@@ -11,6 +24,14 @@ from search_engine import index_chunks, search_chunks
 
 
 app = FastAPI(title="DocuTrace API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 MAX_PDF_SIZE = 10 * 1024 * 1024  # 10 MB
 
@@ -554,7 +575,7 @@ async def upload_pdf(file: UploadFile = File(...)):
             detail="PDF must be 10 MB or smaller.",
         )
 
-    if not content.startswith(b"%PDF-"):
+    if b"%PDF-" not in content[:1024]:
         raise HTTPException(
             status_code=400,
             detail="The uploaded file is not a valid PDF.",
@@ -652,20 +673,26 @@ def query_document(request: QueryRequest):
             detail="Document search failed.",
         ) from exc
 
-    print(f"\n[DocuTrace] Question: {question}")
+    clean_q = question.encode("ascii", errors="replace").decode("ascii")
+    print(f"\n[DocuTrace] Question: {clean_q}")
     print(f"[DocuTrace] Reranked candidates: {len(results)}")
 
     for result in results[:5]:
-        print({
-            "page": result.get("page"),
-            "chunk": result.get("chunk"),
-            "similarity_score": result.get("score"),
-            "retrieval_score": round(
-                result.get("retrieval_score", 0.0),
-                6,
-            ),
-            "preview": result.get("text", "")[:180],
-        })
+        raw_preview = result.get("text", "")[:180]
+        safe_preview = raw_preview.encode("ascii", errors="replace").decode("ascii")
+        try:
+            print({
+                "page": result.get("page"),
+                "chunk": result.get("chunk"),
+                "similarity_score": result.get("score"),
+                "retrieval_score": round(
+                    result.get("retrieval_score", 0.0),
+                    6,
+                ),
+                "preview": safe_preview,
+            })
+        except Exception:
+            pass
 
     if not results:
         return {
