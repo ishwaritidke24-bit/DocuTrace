@@ -14,17 +14,37 @@ import {
   Layers3,
   LoaderCircle,
   Menu,
-  Orbit,
   ScanLine,
   Search,
   ShieldCheck,
-  Sparkles,
   X,
   BookOpen,
 } from 'lucide-react';
 import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function DocuTraceLogoIcon({ size = 20, className = '' }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" strokeDasharray="3 2" opacity="0.4" />
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}
 
 const API = {
   upload: '/api/upload',
@@ -46,8 +66,8 @@ const pipeline = [
   },
   {
     n: '03',
-    title: 'Get the Fact',
-    body: 'DocuTrace synthesizes the answer directly from your text—zero hallucinations allowed.',
+    title: 'Deterministic Retrieval',
+    body: 'DocuTrace extracts the exact verbatim text passages that answer your specific inquiry.',
     icon: Layers3,
   },
   {
@@ -451,7 +471,7 @@ function EvidenceScene() {
       <div className="evidence-stamp">
         <span className="stamp-top">VERIFIED FACT</span>
         <strong>100% CITED</strong>
-        <span className="stamp-bottom">ZERO HALLUCINATIONS</span>
+        <span className="stamp-bottom">VERBATIM GROUNDING</span>
       </div>
 
       <div className="trace-card">
@@ -1114,7 +1134,7 @@ export default function App() {
           aria-label="DocuTrace home"
         >
           <span className="wordmark-symbol">
-            <Orbit size={21} strokeWidth={1.4} />
+            <DocuTraceLogoIcon size={21} />
           </span>
 
           <span>
@@ -1225,7 +1245,7 @@ export default function App() {
             </span>
 
             <span>
-              ⚡ 100% Verbatim Proof · 0% Creative Fiction
+              FORENSIC AUDIT TRAIL · VERBATIM PAGE CITATIONS
             </span>
           </div>
         </div>
@@ -1424,7 +1444,7 @@ export default function App() {
           <div className="workbench-topbar">
             <div className="workbench-brand">
               <span className="mini-brand">
-                <Orbit size={15} />
+                <DocuTraceLogoIcon size={15} />
               </span>
 
               <span>DOCUTRACE</span>
@@ -1596,20 +1616,31 @@ export default function App() {
 
               {!documentId && messages.length === 0 && (
                 <div className="empty-console">
-                  <div className="empty-orbit">
-                    <Orbit size={38} strokeWidth={0.8} />
-                    <span />
+                  <div className="forensic-radar" aria-hidden="true">
+                    <div className="radar-grid" />
+                    <div className="radar-crosshair-h" />
+                    <div className="radar-crosshair-v" />
+                    <div className="radar-corner top-left" />
+                    <div className="radar-corner top-right" />
+                    <div className="radar-corner bottom-left" />
+                    <div className="radar-corner bottom-right" />
+                    <div className="radar-sweep" />
+                    <div className="radar-center-mark">
+                      <ScanLine size={22} />
+                    </div>
+                    <span className="radar-tag top-l">SYS // READY</span>
+                    <span className="radar-tag bottom-r">STAGE: CALIBRATED</span>
                   </div>
 
                   <span className="empty-console-index">
-                    READY TO CROSS-EXAMINE
+                    DOCUMENT INSPECTION BENCH
                   </span>
 
-                  <h4>Your document is ready to talk.</h4>
+                  <h4>Awaiting document upload.</h4>
 
                   <p>
-                    Drop a PDF on the left, then ask the high-stakes questions
-                    you don't have hours to hunt down.
+                    Select or drop any PDF on the rail to initialize deterministic chunk indexing
+                    and verbatim citation tracing.
                   </p>
                 </div>
               )}
@@ -1786,8 +1817,8 @@ export default function App() {
 
                 <div className="question-foot">
                   <span>
-                    <Sparkles size={12} />
-                    🔒 Strictly grounded in your uploaded PDF. Zero hallucinations.
+                    <ShieldCheck size={13} />
+                    Deterministic citation engine · Exact character grounding
                   </span>
                 </div>
               </form>
@@ -1864,32 +1895,21 @@ export default function App() {
         </div>
 
         <div className="closing-art" aria-hidden="true">
-          <div className="closing-document">
-            <div className="closing-document-head">
-              VERIFIED RECORD <span>#001</span>
+          <div className="closing-image-frame">
+            <img
+              src="/audit_document_inspector.jpg"
+              alt="Laser-precise document inspection and verbatim clause tracing"
+              className="closing-image"
+              loading="lazy"
+            />
+            <div className="closing-image-overlay">
+              <div className="image-badge-top">
+                <span className="live-dot" />
+              </div>
+              <div className="image-badge-bottom">
+                <span>VERBATIM ANCHOR CONFIRMED · 100% CITED</span>
+              </div>
             </div>
-
-            <div className="closing-highlight" />
-
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-
-            <div className="closing-check">
-              <Check size={16} />
-            </div>
-          </div>
-
-          <div className="closing-orbit orbit-1" />
-          <div className="closing-orbit orbit-2" />
-          <div className="closing-orbit orbit-3" />
-
-          <div className="closing-stamp">
-            VERIFIED
-            <br />
-            <span>NOT GUESSWORK</span>
           </div>
         </div>
       </section>
@@ -1899,10 +1919,10 @@ export default function App() {
           <div className="footer-top">
             <div className="footer-brand-wrap">
               <a className="footer-brand" href="#top" onClick={() => handleNavClick('top')}>
-                <Orbit size={20} /> DOCUTRACE
+                <DocuTraceLogoIcon size={20} /> DOCUTRACE
               </a>
               <p className="footer-tagline">
-                AI answers backed by verified page receipts. Zero hallucinations.
+                Deterministic passage verification and page-level receipts for high-stakes documents.
               </p>
             </div>
 
