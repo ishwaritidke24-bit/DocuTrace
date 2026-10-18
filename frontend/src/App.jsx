@@ -1648,7 +1648,11 @@ export default function App() {
               )}
 
               {messages.length > 0 && (
-                <div className="conversation" aria-live="polite">
+                <div
+                  className="conversation"
+                  aria-live="polite"
+                  data-lenis-prevent
+                >
                   {messages.map((message) => (
                     <article
                       className={`message message-${message.role}`}
