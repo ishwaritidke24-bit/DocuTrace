@@ -1,7 +1,11 @@
 import math
+import os
 import re
 import sys
 import uuid
+from dotenv import load_dotenv
+
+load_dotenv()
 
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     try:
@@ -25,9 +29,21 @@ from search_engine import index_chunks, search_chunks
 
 app = FastAPI(title="DocuTrace API")
 
+raw_origins = os.getenv("ALLOWED_ORIGINS") or os.getenv("FRONTEND_URL", "")
+configured_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
+
+default_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+allowed_origins = list(dict.fromkeys(default_origins + configured_origins))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins if allowed_origins else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

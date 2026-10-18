@@ -3,7 +3,7 @@ uvicorn[standard]
 pydantic
 PyMuPDF
 python-dotenv
-openai
+google-genai
 sentence-transformers
 qdrant-client
 python-multipart

@@ -1,13 +1,25 @@
-
+import os
+import uuid
+from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient, models
-import uuid
+
+load_dotenv()
 
 embedding_model = SentenceTransformer(
     "sentence-transformers/all-MiniLM-L6-v2"
 )
 
-client = QdrantClient(path="./qdrant_data")
+qdrant_url = os.getenv("QDRANT_URL")
+qdrant_api_key = os.getenv("QDRANT_API_KEY")
+
+if qdrant_url:
+    client = QdrantClient(
+        url=qdrant_url,
+        api_key=qdrant_api_key if qdrant_api_key else None,
+    )
+else:
+    client = QdrantClient(path="./qdrant_data")
 
 COLLECTION_NAME = "doctrace_chunks"
 VECTOR_SIZE = 384

@@ -18,10 +18,11 @@ sample_chunks = [
     },
 ]
 
-count = index_chunks(sample_chunks)
+doc_id = "test-doc-1"
+count = index_chunks(sample_chunks, document_id=doc_id)
 print(f"Indexed {count} chunks.")
 
-results = search_chunks("When is the scholarship application deadline?")
+results = search_chunks("When is the scholarship application deadline?", document_id=doc_id)
 
 for result in results:
     print("\nPage:", result["page"])

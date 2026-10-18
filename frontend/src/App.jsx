@@ -46,9 +46,11 @@ function DocuTraceLogoIcon({ size = 20, className = '' }) {
   );
 }
 
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+
 const API = {
-  upload: '/api/upload',
-  query: '/api/query',
+  upload: API_BASE_URL ? `${API_BASE_URL}/upload` : '/api/upload',
+  query: API_BASE_URL ? `${API_BASE_URL}/query` : '/api/query',
 };
 
 const pipeline = [

@@ -5,14 +5,13 @@ from google import genai
 
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY")
-
-if not api_key:
-    raise RuntimeError(
-        "GEMINI_API_KEY is missing. Add it to your .env file."
-    )
-
-client = genai.Client(api_key=api_key)
+def _get_client():
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "GEMINI_API_KEY is missing. Add it to your environment variables."
+        )
+    return genai.Client(api_key=api_key)
 
 
 
@@ -37,6 +36,7 @@ def generate_answer(question: str, sources: list[dict]) -> str:
         f"Document excerpts:\n{context}"
     )
 
+    client = _get_client()
     interaction = client.interactions.create(
         model="gemini-3.5-flash-lite",
         input=prompt,
